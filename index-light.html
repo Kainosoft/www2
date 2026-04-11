@@ -37,7 +37,6 @@
 
     #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.45; }
 
-    /* Light theme gradient text */
     .glow-text {
       background: linear-gradient(135deg, #0d1a35 0%, #1a5ae8 50%, #0099cc 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
@@ -108,15 +107,6 @@
     .form-input::placeholder { color: rgba(122,138,170,0.7); }
     .form-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,90,232,0.1); }
 
-    /* Logo upload zone */
-    .logo-upload-zone {
-      border: 1.5px dashed rgba(30,80,200,0.3); border-radius: 8px;
-      padding: 0.5rem 1rem; cursor: pointer; transition: all 0.2s ease;
-      display: flex; align-items: center; gap: 0.5rem; position: relative;
-    }
-    .logo-upload-zone:hover { border-color: var(--blue); background: rgba(26,90,232,0.04); }
-    .logo-upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
-
     @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes pulse-glow { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
     @keyframes float { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
@@ -183,38 +173,8 @@ function ParticleBackground() {
   return null;
 }
 
-/* ── Logo Upload ── */
-function LogoUpload({ logoSrc, onLogoChange, size = 'nav' }) {
-  const inputRef = useRef(null);
-  const handleFile = (e) => {
-    const file = e.target.files[0]; if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => onLogoChange(ev.target.result);
-    reader.readAsDataURL(file);
-  };
-  const h = size === 'footer' ? '28px' : '36px';
-  if (logoSrc) {
-    return (
-      <div className="logo-upload-zone" title="Click to change logo" style={{ border:'none', padding:'0' }}>
-        <img src={logoSrc} alt="Kainosoft" style={{ height:h, width:'auto', objectFit:'contain', display:'block' }} />
-        <input ref={inputRef} type="file" accept="image/*" onChange={handleFile} title="Change logo" />
-      </div>
-    );
-  }
-  return (
-    <div className="logo-upload-zone" title="Upload your logo">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M8 3v7M5 6l3-3 3 3" stroke="rgba(26,90,232,0.7)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M3 12h10" stroke="rgba(26,90,232,0.4)" strokeWidth="1.5" strokeLinecap="round"/>
-      </svg>
-      <span style={{ fontFamily:'Syne', fontSize:'0.72rem', letterSpacing:'0.08em', color:'rgba(26,90,232,0.7)' }}>Upload logo</span>
-      <input ref={inputRef} type="file" accept="image/*" onChange={handleFile} />
-    </div>
-  );
-}
-
 /* ── Nav ── */
-function Nav({ logoSrc, onLogoChange }) {
+function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   useEffect(() => {
@@ -225,7 +185,9 @@ function Nav({ logoSrc, onLogoChange }) {
   return (
     <nav style={{ position:'fixed', top:0, left:0, right:0, zIndex:100, transition:'all 0.3s ease' }} className={scrolled?'nav-blur':''}>
       <div style={{ maxWidth:'1200px', margin:'0 auto', padding:'0 2rem', height:'68px', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-        <LogoUpload logoSrc={logoSrc} onLogoChange={onLogoChange} size="nav" />
+        <a href="#hero" style={{ display: 'flex', alignItems: 'center' }}>
+          <img src="images/horizontal.svg" alt="Kainosoft" style={{ height: '36px', width: 'auto' }} />
+        </a>
         <div className="hidden md:flex" style={{ gap:'2.5rem', alignItems:'center' }}>
           {links.map(l => (
             <a key={l} href={`#${l.toLowerCase()}`}
@@ -256,7 +218,6 @@ function Nav({ logoSrc, onLogoChange }) {
 function Hero() {
   return (
     <section id="hero" style={{ minHeight:'100vh', display:'flex', alignItems:'center', padding:'7rem 2rem 4rem', position:'relative', overflow:'hidden' }}>
-      {/* Soft radial bg */}
       <div style={{ position:'absolute', top:'10%', left:'60%', width:'700px', height:'700px', background:'radial-gradient(ellipse, rgba(26,90,232,0.08) 0%, rgba(101,48,204,0.05) 40%, transparent 70%)', pointerEvents:'none', transform:'translateX(-50%)' }}/>
       <div style={{ position:'absolute', bottom:'10%', left:'10%', width:'400px', height:'400px', background:'radial-gradient(ellipse, rgba(0,153,204,0.06) 0%, transparent 70%)', pointerEvents:'none' }}/>
 
@@ -287,7 +248,6 @@ function Hero() {
         </div>
       </div>
 
-      {/* Hero graphic */}
       <div style={{ position:'absolute', right:'-60px', top:'50%', transform:'translateY(-50%)', width:'520px', height:'520px', opacity:0.5, pointerEvents:'none' }} className="animate-float">
         <svg viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width:'100%', height:'100%' }}>
           <defs>
@@ -319,7 +279,6 @@ function Hero() {
   );
 }
 
-/* ── Section Heading ── */
 function SectionHeading({ eyebrow, title }) {
   return (
     <div style={{ textAlign:'center', marginBottom:'5rem' }}>
@@ -329,7 +288,6 @@ function SectionHeading({ eyebrow, title }) {
   );
 }
 
-/* ── Services ── */
 const services = [
   { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="3" y="3" width="10" height="10" rx="2" stroke="#1a5ae8" strokeWidth="1.5"/><rect x="19" y="3" width="10" height="10" rx="2" stroke="#6530cc" strokeWidth="1.5"/><rect x="3" y="19" width="10" height="10" rx="2" stroke="#6530cc" strokeWidth="1.5"/><rect x="19" y="19" width="10" height="10" rx="2" stroke="#0099cc" strokeWidth="1.5"/><line x1="8" y1="13" x2="8" y2="19" stroke="rgba(30,80,200,0.3)" strokeWidth="1"/><line x1="24" y1="13" x2="24" y2="19" stroke="rgba(30,80,200,0.3)" strokeWidth="1"/><line x1="13" y1="8" x2="19" y2="8" stroke="rgba(30,80,200,0.3)" strokeWidth="1"/><line x1="13" y1="24" x2="19" y2="24" stroke="rgba(30,80,200,0.3)" strokeWidth="1"/></svg>, title:'SaaS Development', desc:'End-to-end SaaS engineering from architecture to production. Built for multi-tenancy and long-term growth.', bullets:['Multi-tenant architecture','Scalable cloud systems on Azure','Built for growth from day one'], accent:'#1a5ae8' },
   { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="#6530cc" strokeWidth="1.5"/><path d="M10 16 Q13 10 16 14 Q19 18 22 12" stroke="#0099cc" strokeWidth="1.5" fill="none" strokeLinecap="round"/><circle cx="10" cy="16" r="2" fill="#6530cc"/><circle cx="22" cy="12" r="2" fill="#0099cc"/><circle cx="16" cy="14" r="2" fill="rgba(30,80,200,0.4)"/></svg>, title:'AI Integration', desc:'Bring intelligence into your platform with Azure AI services and language model workflows.', bullets:['Azure AI & Cognitive Services','LLM-powered features','Automation & intelligent workflows'], accent:'#6530cc' },
@@ -361,7 +319,6 @@ function Services() {
   );
 }
 
-/* ── Process ── */
 const steps = [
   {num:'01',title:'Discovery',desc:'Understand product goals, constraints, and system requirements.'},
   {num:'02',title:'Architecture',desc:'Design a scalable, maintainable system blueprint on Azure.'},
@@ -405,7 +362,6 @@ function Process() {
   );
 }
 
-/* ── Tech Stack ── */
 const techStack = [
   {name:'Microsoft Azure',sub:'Cloud Platform',color:'#1a5ae8'},
   {name:'Azure AI',sub:'Cognitive Services',color:'#6530cc'},
@@ -433,7 +389,6 @@ function TechStack() {
   );
 }
 
-/* ── Case Studies ── */
 const cases = [
   {label:'Healthcare Platform',tag:'HIPAA-grade SaaS',bullets:['Secure, multi-tenant patient data system','Real-time data access and audit trails','Outcome: 40% improvement in operational efficiency'],color:'#1a5ae8'},
   {label:'Payroll SaaS',tag:'Multi-tenant Finance',bullets:['End-to-end payroll processing engine','Automated tax workflows and reporting','Outcome: 70% reduction in manual processing'],color:'#6530cc'},
@@ -465,7 +420,6 @@ function CaseStudies() {
   );
 }
 
-/* ── CTA Banner ── */
 function CTABanner() {
   return (
     <section style={{ padding:'8rem 2rem' }}>
@@ -486,7 +440,6 @@ function CTABanner() {
   );
 }
 
-/* ── Contact ── */
 function Contact() {
   const [form, setForm] = useState({name:'',email:'',company:'',message:''});
   const [errors, setErrors] = useState({});
@@ -540,12 +493,12 @@ function Contact() {
 }
 
 /* ── Footer ── */
-function Footer({ logoSrc, onLogoChange }) {
+function Footer() {
   return (
     <footer style={{ borderTop:'1.5px solid rgba(30,80,200,0.1)', padding:'3rem 2rem', background:'var(--surface)' }}>
       <div style={{ maxWidth:'1200px', margin:'0 auto', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'1.5rem' }}>
         <div>
-          <LogoUpload logoSrc={logoSrc} onLogoChange={onLogoChange} size="footer" />
+          <img src="images/horizontal.svg" alt="Kainosoft" style={{ height: '28px', width: 'auto' }} />
           <p style={{ fontSize:'0.78rem', color:'var(--muted)', marginTop:'0.5rem' }}>SaaS Engineering on Azure</p>
         </div>
         <div style={{ display:'flex', gap:'2rem', flexWrap:'wrap' }}>
@@ -562,11 +515,10 @@ function Footer({ logoSrc, onLogoChange }) {
 
 /* ── App ── */
 function App() {
-  const [logoSrc, setLogoSrc] = useState(null);
   return (
     <>
       <ParticleBackground/>
-      <Nav logoSrc={logoSrc} onLogoChange={setLogoSrc}/>
+      <Nav />
       <main>
         <Hero/>
         <div className="section-divider"/>
@@ -581,7 +533,7 @@ function App() {
         <div className="section-divider"/>
         <Contact/>
       </main>
-      <Footer logoSrc={logoSrc} onLogoChange={setLogoSrc}/>
+      <Footer />
     </>
   );
 }
