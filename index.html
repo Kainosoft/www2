@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kainosoft — Build and Scale SaaS Platforms</title>
+  <meta name="description" content="Azure-native SaaS development with Python, AI integration, and rapid MVP delivery." />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #040d1a;
+      --navy-mid: #071428;
+      --blue: #1a6bff;
+      --cyan: #00d4ff;
+      --purple: #7b3fe4;
+      --glow-blue: rgba(26,107,255,0.35);
+      --glow-cyan: rgba(0,212,255,0.25);
+      --glow-purple: rgba(123,63,228,0.3);
+      --text: #e8eef8;
+      --muted: #6b7fa8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .font-display {
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* ── Canvas ── */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Gradients & glows ── */
+    .glow-text {
+      background: linear-gradient(135deg, #ffffff 0%, #a8c8ff 40%, #00d4ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .glow-accent {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 50%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      padding: 0.8rem 2rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 0 20px rgba(26,107,255,0.4);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(26,107,255,0.6);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      padding: 0.8rem 2rem;
+      border-radius: 6px;
+      border: 1px solid rgba(100,150,255,0.35);
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-secondary:hover {
+      border-color: rgba(0,212,255,0.6);
+      background: rgba(0,212,255,0.05);
+      transform: translateY(-2px);
+    }
+
+    /* ── Card base ── */
+    .card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+      border: 1px solid rgba(100,150,255,0.12);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .card:hover {
+      border-color: rgba(0,212,255,0.3);
+      box-shadow: 0 0 30px rgba(0,212,255,0.08), 0 20px 40px rgba(0,0,0,0.3);
+      transform: translateY(-4px);
+    }
+
+    /* ── Nav ── */
+    .nav-blur {
+      background: rgba(4,13,26,0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(100,150,255,0.1);
+    }
+
+    /* ── Section ── */
+    section { position: relative; z-index: 1; }
+
+    /* ── Divider ── */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(100,150,255,0.2) 30%, rgba(0,212,255,0.3) 50%, rgba(100,150,255,0.2) 70%, transparent 100%);
+      margin: 0 auto;
+      max-width: 900px;
+    }
+
+    /* ── Badge ── */
+    .tech-badge {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(100,150,255,0.2);
+      border-radius: 8px;
+      padding: 0.75rem 1.25rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: rgba(200,220,255,0.9);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .tech-badge:hover {
+      border-color: rgba(0,212,255,0.5);
+      box-shadow: 0 0 16px rgba(0,212,255,0.15);
+    }
+
+    /* ── Process step ── */
+    .step-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      color: var(--cyan);
+      opacity: 0.7;
+    }
+
+    /* ── Form ── */
+    .form-input {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(100,150,255,0.2);
+      border-radius: 8px;
+      padding: 0.85rem 1.1rem;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-input::placeholder { color: rgba(107,127,168,0.6); }
+    .form-input:focus {
+      border-color: rgba(0,212,255,0.5);
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.08);
+    }
+
+    /* ── Logo mark ── */
+    .logo-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 1; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-8px); }
+    }
+    @keyframes gradient-shift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes shimmer {
+      0%   { opacity: 0.4; }
+      50%  { opacity: 0.8; }
+      100% { opacity: 0.4; }
+    }
+
+    .animate-fade-up { animation: fadeUp 0.8s ease forwards; }
+    .delay-1 { animation-delay: 0.15s; }
+    .delay-2 { animation-delay: 0.3s; }
+    .delay-3 { animation-delay: 0.45s; }
+    .delay-4 { animation-delay: 0.6s; }
+
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+
+    .hero-headline {
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── CTA banner ── */
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(26,107,255,0.12) 0%, rgba(123,63,228,0.12) 50%, rgba(0,212,255,0.08) 100%);
+      border: 1px solid rgba(100,150,255,0.18);
+      background-size: 200% 200%;
+      animation: gradient-shift 8s ease infinite;
+    }
+
+    /* ── Connector line ── */
+    .connector {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(0,212,255,0.4), rgba(123,63,228,0.4));
+      position: relative;
+    }
+    .connector::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: -3px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .hero-headline { font-size: clamp(2rem, 8vw, 3rem); }
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: rgba(100,150,255,0.3); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- Particle Canvas -->
+<canvas id="bg-canvas"></canvas>
+
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ─── Particle / Node Graph Background ─── */
+function ParticleBackground() {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, nodes, animId;
+
+    const COLORS = ['rgba(26,107,255,', 'rgba(0,212,255,', 'rgba(123,63,228,'];
+
+    function init() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+
+      const count = Math.floor((W * H) / 18000);
+      nodes = Array.from({ length: count }, () => ({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: Math.random() * 1.5 + 0.5,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        pulse: Math.random() * Math.PI * 2,
+      }));
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      // Subtle radial gradient overlay
+      const grad = ctx.createRadialGradient(W * 0.5, H * 0.3, 0, W * 0.5, H * 0.3, W * 0.7);
+      grad.addColorStop(0, 'rgba(26,107,255,0.06)');
+      grad.addColorStop(0.5, 'rgba(123,63,228,0.03)');
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+
+      // Draw connections
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 140) {
+            const alpha = (1 - dist / 140) * 0.18;
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(100,160,255,${alpha})`;
+            ctx.lineWidth = 0.6;
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw nodes
+      nodes.forEach(n => {
+        n.pulse += 0.02;
+        const glow = 0.5 + 0.5 * Math.sin(n.pulse);
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = n.color + (0.4 + 0.4 * glow) + ')';
+        ctx.fill();
+
+        // Glow halo for some nodes
+        if (n.r > 1.5) {
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r * 3, 0, Math.PI * 2);
+          ctx.fillStyle = n.color + (0.05 * glow) + ')';
+          ctx.fill();
+        }
+
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0 || n.x > W) n.vx *= -1;
+        if (n.y < 0 || n.y > H) n.vy *= -1;
+      });
+
+      animId = requestAnimationFrame(draw);
+    }
+
+    init();
+    draw();
+    window.addEventListener('resize', init);
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', init);
+    };
+  }, []);
+
+  return null;
+}
+
+/* ─── Navigation ─── */
+function Nav() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const links = ['Services', 'Process', 'Tech', 'Work', 'Contact'];
+
+  return (
+    <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, transition: 'all 0.3s ease' }}
+         className={scrolled ? 'nav-blur' : ''}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem', height: '68px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        {/* Logo */}
+        <a href="#" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M4 16 L12 8 L20 16 L12 24 Z" stroke="url(#lg1)" strokeWidth="1.5" fill="none"/>
+            <path d="M12 8 L24 8 L28 16 L24 24 L12 24" stroke="url(#lg2)" strokeWidth="1.5" fill="none" strokeLinejoin="round"/>
+            <circle cx="12" cy="8"  r="2" fill="url(#lg1)"/>
+            <circle cx="12" cy="24" r="2" fill="url(#lg2)"/>
+            <circle cx="28" cy="16" r="2" fill="url(#lg3)"/>
+            <defs>
+              <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#1a6bff"/><stop offset="1" stopColor="#7b3fe4"/></linearGradient>
+              <linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#7b3fe4"/><stop offset="1" stopColor="#00d4ff"/></linearGradient>
+              <linearGradient id="lg3" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#1a6bff"/><stop offset="1" stopColor="#00d4ff"/></linearGradient>
+            </defs>
+          </svg>
+          <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '1.15rem', letterSpacing: '0.02em' }}>
+            <span className="glow-text">KAINO</span><span style={{ color: 'rgba(200,220,255,0.5)' }}>SOFT</span>
+          </span>
+        </a>
+
+        {/* Desktop links */}
+        <div className="hidden md:flex" style={{ gap: '2.5rem', alignItems: 'center' }}>
+          {links.map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`}
+               style={{ color: 'rgba(200,220,255,0.65)', fontFamily: 'DM Sans, sans-serif', fontSize: '0.88rem', textDecoration: 'none', letterSpacing: '0.04em', transition: 'color 0.2s ease' }}
+               onMouseEnter={e => e.target.style.color = '#fff'}
+               onMouseLeave={e => e.target.style.color = 'rgba(200,220,255,0.65)'}>
+              {l}
+            </a>
+          ))}
+          <a href="#contact" className="btn-primary" style={{ padding: '0.55rem 1.4rem', fontSize: '0.82rem' }}>Book a Call</a>
+        </div>
+
+        {/* Hamburger */}
+        <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden"
+                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem' }}>
+          <div style={{ width: '22px', height: '2px', background: '#fff', margin: '5px 0', transition: 'all 0.3s ease', transform: mobileOpen ? 'rotate(45deg) translate(5px,5px)' : 'none' }}/>
+          <div style={{ width: '22px', height: '2px', background: '#fff', margin: '5px 0', opacity: mobileOpen ? 0 : 1, transition: 'opacity 0.3s ease' }}/>
+          <div style={{ width: '22px', height: '2px', background: '#fff', margin: '5px 0', transition: 'all 0.3s ease', transform: mobileOpen ? 'rotate(-45deg) translate(5px,-5px)' : 'none' }}/>
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div style={{ background: 'rgba(4,13,26,0.98)', backdropFilter: 'blur(20px)', borderTop: '1px solid rgba(100,150,255,0.1)', padding: '1.5rem 2rem 2rem' }}>
+          {links.map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setMobileOpen(false)}
+               style={{ display: 'block', padding: '0.8rem 0', color: 'rgba(200,220,255,0.8)', fontFamily: 'Syne', fontSize: '1.1rem', textDecoration: 'none', borderBottom: '1px solid rgba(100,150,255,0.08)' }}>
+              {l}
+            </a>
+          ))}
+          <a href="#contact" className="btn-primary" style={{ marginTop: '1.5rem', display: 'block', textAlign: 'center' }}>Book a Call</a>
+        </div>
+      )}
+    </nav>
+  );
+}
+
+/* ─── Hero ─── */
+function Hero() {
+  return (
+    <section id="hero" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '7rem 2rem 4rem', position: 'relative', overflow: 'hidden' }}>
+      {/* Radial glow behind hero */}
+      <div style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translateX(-50%)', width: '800px', height: '600px', background: 'radial-gradient(ellipse, rgba(26,107,255,0.12) 0%, rgba(123,63,228,0.08) 40%, transparent 70%)', pointerEvents: 'none' }}/>
+
+      <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
+        <div style={{ maxWidth: '780px' }}>
+          {/* Eyebrow */}
+          <div className="animate-fade-up" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', background: 'rgba(26,107,255,0.1)', border: '1px solid rgba(26,107,255,0.25)', borderRadius: '100px', padding: '0.35rem 1rem 0.35rem 0.6rem', marginBottom: '2rem' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--cyan)', boxShadow: '0 0 8px var(--cyan)', display: 'inline-block' }} className="animate-pulse-glow"/>
+            <span style={{ fontFamily: 'Syne', fontSize: '0.75rem', letterSpacing: '0.1em', color: 'rgba(200,220,255,0.8)' }}>AZURE-NATIVE SAAS ENGINEERING</span>
+          </div>
+
+          {/* Headline */}
+          <h1 className="hero-headline glow-text animate-fade-up delay-1" style={{ marginBottom: '1.75rem' }}>
+            Build and Scale<br/>SaaS Platforms<br/>Faster
+          </h1>
+
+          {/* Subheadline */}
+          <p className="animate-fade-up delay-2" style={{ fontSize: 'clamp(1rem, 2.2vw, 1.2rem)', color: 'rgba(168,196,255,0.8)', lineHeight: 1.7, marginBottom: '2.5rem', maxWidth: '560px', fontWeight: 300 }}>
+            Azure-native SaaS development with Python, AI integration, and rapid MVP delivery. From architecture to production.
+          </p>
+
+          {/* CTAs */}
+          <div className="animate-fade-up delay-3" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '3rem' }}>
+            <a href="#contact" className="btn-primary">Book a Call</a>
+            <a href="#contact" className="btn-secondary">Contact Us</a>
+          </div>
+
+          {/* Tech micro-line */}
+          <div className="animate-fade-up delay-4" style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            {['Azure', 'Python', 'Django', 'AI'].map((t, i) => (
+              <React.Fragment key={t}>
+                <span style={{ fontFamily: 'Syne', fontSize: '0.78rem', letterSpacing: '0.08em', color: 'rgba(150,190,255,0.6)', fontWeight: 600 }}>{t}</span>
+                {i < 3 && <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(0,212,255,0.4)', display: 'inline-block' }}/>}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Abstract right-side data flow graphic */}
+      <div style={{ position: 'absolute', right: '-60px', top: '50%', transform: 'translateY(-50%)', width: '520px', height: '520px', opacity: 0.6, pointerEvents: 'none' }} className="animate-float">
+        <svg viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+          <defs>
+            <linearGradient id="hg1" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#1a6bff" stopOpacity="0.8"/><stop offset="1" stopColor="#00d4ff" stopOpacity="0.2"/></linearGradient>
+            <linearGradient id="hg2" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#7b3fe4" stopOpacity="0.6"/><stop offset="1" stopColor="#1a6bff" stopOpacity="0.1"/></linearGradient>
+            <linearGradient id="hg3" x1="0" y1="1" x2="1" y2="0"><stop stopColor="#00d4ff" stopOpacity="0.5"/><stop offset="1" stopColor="#7b3fe4" stopOpacity="0.1"/></linearGradient>
+            <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          {/* Signal paths */}
+          <path d="M80 260 Q180 160 260 200 Q340 240 440 160" stroke="url(#hg1)" strokeWidth="1.5" fill="none" filter="url(#glow)"/>
+          <path d="M80 300 Q160 340 260 280 Q360 220 440 260" stroke="url(#hg2)" strokeWidth="1.5" fill="none" filter="url(#glow)"/>
+          <path d="M80 340 Q200 420 300 360 Q380 310 440 360" stroke="url(#hg3)" strokeWidth="1.5" fill="none" filter="url(#glow)"/>
+          <path d="M80 220 Q140 180 220 200 L300 200 Q380 200 440 140" stroke="url(#hg1)" strokeWidth="0.8" strokeDasharray="6 4" fill="none" opacity="0.5"/>
+          {/* Nodes */}
+          {[[80,260],[260,200],[440,160],[260,280],[440,260],[300,360],[440,360],[220,200],[440,140]].map(([x,y],i) => (
+            <circle key={i} cx={x} cy={y} r="4" fill={i%3===0?"#1a6bff":i%3===1?"#7b3fe4":"#00d4ff"} filter="url(#glow)" opacity="0.9"/>
+          ))}
+          {/* Grid */}
+          {[100,160,220,280,340,400,460].map(x => (
+            <line key={x} x1={x} y1="80" x2={x} y2="440" stroke="rgba(100,150,255,0.07)" strokeWidth="1"/>
+          ))}
+          {[100,160,220,280,340,400].map(y => (
+            <line key={y} x1="60" y1={y} x2="480" y2={y} stroke="rgba(100,150,255,0.07)" strokeWidth="1"/>
+          ))}
+          {/* Large node with glow ring */}
+          <circle cx="260" cy="260" r="40" stroke="rgba(0,212,255,0.15)" strokeWidth="1" fill="none"/>
+          <circle cx="260" cy="260" r="25" stroke="rgba(26,107,255,0.25)" strokeWidth="1" fill="none"/>
+          <circle cx="260" cy="260" r="6" fill="url(#hg1)" filter="url(#glow)"/>
+        </svg>
+      </div>
+
+      {/* Scroll indicator */}
+      <div style={{ position: 'absolute', bottom: '2.5rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+        <span style={{ fontFamily: 'Syne', fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(150,190,255,0.4)' }}>SCROLL</span>
+        <div style={{ width: '1px', height: '40px', background: 'linear-gradient(180deg, rgba(0,212,255,0.6), transparent)' }} className="animate-pulse-glow"/>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Services ─── */
+const services = [
+  {
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect x="3" y="3" width="10" height="10" rx="2" stroke="#1a6bff" strokeWidth="1.5"/>
+        <rect x="19" y="3" width="10" height="10" rx="2" stroke="#7b3fe4" strokeWidth="1.5"/>
+        <rect x="3" y="19" width="10" height="10" rx="2" stroke="#7b3fe4" strokeWidth="1.5"/>
+        <rect x="19" y="19" width="10" height="10" rx="2" stroke="#00d4ff" strokeWidth="1.5"/>
+        <line x1="8" y1="13" x2="8" y2="19" stroke="rgba(100,150,255,0.5)" strokeWidth="1"/>
+        <line x1="24" y1="13" x2="24" y2="19" stroke="rgba(100,150,255,0.5)" strokeWidth="1"/>
+        <line x1="13" y1="8" x2="19" y2="8" stroke="rgba(100,150,255,0.5)" strokeWidth="1"/>
+        <line x1="13" y1="24" x2="19" y2="24" stroke="rgba(100,150,255,0.5)" strokeWidth="1"/>
+      </svg>
+    ),
+    title: 'SaaS Development',
+    desc: 'End-to-end SaaS engineering from architecture to production. Built for multi-tenancy and long-term growth.',
+    bullets: ['Multi-tenant architecture', 'Scalable cloud systems on Azure', 'Built for growth from day one'],
+    accent: '#1a6bff',
+  },
+  {
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="12" stroke="#7b3fe4" strokeWidth="1.5"/>
+        <path d="M10 16 Q13 10 16 14 Q19 18 22 12" stroke="#00d4ff" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+        <circle cx="10" cy="16" r="2" fill="#7b3fe4"/>
+        <circle cx="22" cy="12" r="2" fill="#00d4ff"/>
+        <circle cx="16" cy="14" r="2" fill="rgba(100,150,255,0.6)"/>
+      </svg>
+    ),
+    title: 'AI Integration',
+    desc: 'Bring intelligence into your platform with Azure AI services and language model workflows.',
+    bullets: ['Azure AI & Cognitive Services', 'LLM-powered features', 'Automation & intelligent workflows'],
+    accent: '#7b3fe4',
+  },
+  {
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M6 26 L6 12 L16 6 L26 12 L26 26" stroke="#00d4ff" strokeWidth="1.5" fill="none" strokeLinejoin="round"/>
+        <path d="M12 26 L12 18 L20 18 L20 26" stroke="#1a6bff" strokeWidth="1.5" fill="none"/>
+        <path d="M4 14 L28 14" stroke="rgba(100,150,255,0.3)" strokeWidth="1" strokeDasharray="3 3"/>
+        <circle cx="26" cy="8" r="4" stroke="#7b3fe4" strokeWidth="1.5" fill="none"/>
+        <path d="M24 8 L26 10 L29 6" stroke="#7b3fe4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    ),
+    title: 'Modernization',
+    desc: 'Migrate legacy systems to cloud-native infrastructure. Increase performance and reduce operational cost.',
+    bullets: ['Legacy → cloud-native migration', 'Performance & scalability improvements', 'System redesign & refactoring'],
+    accent: '#00d4ff',
+  },
+];
+
+function Services() {
+  return (
+    <section id="services" style={{ padding: '8rem 2rem' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
+          <p style={{ fontFamily: 'Syne', fontSize: '0.72rem', letterSpacing: '0.18em', color: 'rgba(0,212,255,0.7)', marginBottom: '1rem' }}>WHAT WE BUILD</p>
+          <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontFamily: 'Syne', fontWeight: 800 }}>
+            <span className="glow-text">Three core disciplines.</span>
+          </h2>
+          <p style={{ marginTop: '1rem', color: 'rgba(168,196,255,0.65)', maxWidth: '480px', margin: '1rem auto 0', fontSize: '1rem', lineHeight: 1.7 }}>
+            Each engagement is scoped to deliver measurable outcomes — not hours.
+          </p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+          {services.map((s, i) => (
+            <div key={i} className="card" style={{ padding: '2.2rem' }}>
+              <div style={{ marginBottom: '1.5rem', padding: '0.75rem', background: `rgba(${s.accent === '#1a6bff' ? '26,107,255' : s.accent === '#7b3fe4' ? '123,63,228' : '0,212,255'},0.1)`, borderRadius: '10px', width: 'fit-content', border: `1px solid ${s.accent}22` }}>
+                {s.icon}
+              </div>
+              <h3 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: '1.25rem', marginBottom: '0.75rem' }}>{s.title}</h3>
+              <p style={{ color: 'rgba(168,196,255,0.65)', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '1.5rem' }}>{s.desc}</p>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                {s.bullets.map((b, j) => (
+                  <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', fontSize: '0.85rem', color: 'rgba(200,220,255,0.75)' }}>
+                    <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: s.accent, boxShadow: `0 0 6px ${s.accent}`, flexShrink: 0, marginTop: '0.45rem' }}/>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Process ─── */
+const steps = [
+  { num: '01', title: 'Discovery', desc: 'Understand product goals, constraints, and system requirements.' },
+  { num: '02', title: 'Architecture', desc: 'Design a scalable, maintainable system blueprint on Azure.' },
+  { num: '03', title: 'Build', desc: 'Rapid MVP development with clean, production-ready code.' },
+  { num: '04', title: 'Scale', desc: 'Iterate, optimize, and extend the platform as you grow.' },
+];
+
+function Process() {
+  return (
+    <section id="process" style={{ padding: '8rem 2rem', background: 'rgba(255,255,255,0.01)' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
+          <p style={{ fontFamily: 'Syne', fontSize: '0.72rem', letterSpacing: '0.18em', color: 'rgba(0,212,255,0.7)', marginBottom: '1rem' }}>HOW IT WORKS</p>
+          <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontFamily: 'Syne', fontWeight: 800 }}>
+            <span className="glow-text">The pipeline.</span>
+          </h2>
+        </div>
+
+        {/* Desktop: horizontal flow */}
+        <div className="hidden md:flex" style={{ alignItems: 'flex-start', gap: '0' }}>
+          {steps.map((s, i) => (
+            <React.Fragment key={i}>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '0 1.5rem' }}>
+                {/* Step number circle */}
+                <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'linear-gradient(135deg, rgba(26,107,255,0.2), rgba(123,63,228,0.2))', border: '1px solid rgba(100,150,255,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', position: 'relative' }}>
+                  <span style={{ fontFamily: 'Syne', fontSize: '0.75rem', fontWeight: 800, color: 'var(--cyan)', letterSpacing: '0.05em' }}>{s.num}</span>
+                  <div style={{ position: 'absolute', inset: '-4px', borderRadius: '50%', border: '1px solid rgba(0,212,255,0.15)' }}/>
+                </div>
+                <h3 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: '1.05rem', marginBottom: '0.6rem' }}>{s.title}</h3>
+                <p style={{ color: 'rgba(168,196,255,0.65)', fontSize: '0.85rem', lineHeight: 1.65 }}>{s.desc}</p>
+              </div>
+              {i < steps.length - 1 && (
+                <div style={{ display: 'flex', alignItems: 'center', marginTop: '28px', minWidth: '40px' }}>
+                  <div className="connector" style={{ minWidth: '40px' }}/>
+                </div>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+
+        {/* Mobile: vertical */}
+        <div className="md:hidden" style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+          {steps.map((s, i) => (
+            <div key={i} style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start', paddingBottom: i < steps.length - 1 ? '2rem' : '0', borderLeft: i < steps.length - 1 ? '1px solid rgba(0,212,255,0.2)' : 'none', marginLeft: '28px' }}>
+              <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'linear-gradient(135deg, rgba(26,107,255,0.2), rgba(123,63,228,0.2))', border: '1px solid rgba(100,150,255,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginLeft: '-28px' }}>
+                <span style={{ fontFamily: 'Syne', fontSize: '0.75rem', fontWeight: 800, color: 'var(--cyan)' }}>{s.num}</span>
+              </div>
+              <div style={{ paddingTop: '0.75rem' }}>
+                <h3 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: '1.05rem', marginBottom: '0.5rem' }}>{s.title}</h3>
+                <p style={{ color: 'rgba(168,196,255,0.65)', fontSize: '0.88rem', lineHeight: 1.65 }}>{s.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Tech Stack ─── */
+const techStack = [
+  { name: 'Microsoft Azure', sub: 'Cloud Platform', color: '#1a6bff' },
+  { name: 'Azure AI', sub: 'Cognitive Services', color: '#7b3fe4' },
+  { name: 'Python', sub: 'Core Language', color: '#00d4ff' },
+  { name: 'Django', sub: 'Web Framework', color: '#1a6bff' },
+  { name: 'REST APIs', sub: 'Service Architecture', color: '#7b3fe4' },
+  { name: 'Cloud-Native', sub: 'Infrastructure', color: '#00d4ff' },
+];
+
+function TechStack() {
+  return (
+    <section id="tech" style={{ padding: '8rem 2rem' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <p style={{ fontFamily: 'Syne', fontSize: '0.72rem', letterSpacing: '0.18em', color: 'rgba(0,212,255,0.7)', marginBottom: '1rem' }}>TECH STACK</p>
+          <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontFamily: 'Syne', fontWeight: 800 }}>
+            <span className="glow-text">Precision tooling.</span>
+          </h2>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
+          {techStack.map((t, i) => (
+            <div key={i} className="tech-badge" style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', textAlign: 'center' }}>
+              <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: t.color, boxShadow: `0 0 10px ${t.color}`, margin: '0 auto 0.5rem' }} className="animate-pulse-glow"/>
+              <span style={{ fontFamily: 'Syne', fontSize: '0.88rem', fontWeight: 700, color: 'rgba(220,235,255,0.9)' }}>{t.name}</span>
+              <span style={{ fontSize: '0.73rem', color: 'rgba(150,175,220,0.5)', fontFamily: 'DM Sans' }}>{t.sub}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Case Studies ─── */
+const cases = [
+  {
+    label: 'Healthcare Platform',
+    tag: 'HIPAA-grade SaaS',
+    bullets: ['Secure, multi-tenant patient data system', 'Real-time data access and audit trails', 'Outcome: 40% improvement in operational efficiency'],
+    color: '#1a6bff',
+  },
+  {
+    label: 'Payroll SaaS',
+    tag: 'Multi-tenant Finance',
+    bullets: ['End-to-end payroll processing engine', 'Automated tax workflows and reporting', 'Outcome: 70% reduction in manual processing'],
+    color: '#7b3fe4',
+  },
+  {
+    label: 'Fitness Platform',
+    tag: 'Consumer SaaS',
+    bullets: ['Membership management & training tracking', 'Real-time performance dashboards', 'Outcome: 5× user growth in 18 months'],
+    color: '#00d4ff',
+  },
+];
+
+function CaseStudies() {
+  return (
+    <section id="work" style={{ padding: '8rem 2rem', background: 'rgba(255,255,255,0.01)' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
+          <p style={{ fontFamily: 'Syne', fontSize: '0.72rem', letterSpacing: '0.18em', color: 'rgba(0,212,255,0.7)', marginBottom: '1rem' }}>SELECTED WORK</p>
+          <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontFamily: 'Syne', fontWeight: 800 }}>
+            <span className="glow-text">Systems in production.</span>
+          </h2>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+          {cases.map((c, i) => (
+            <div key={i} className="card" style={{ padding: '2.2rem', position: 'relative', overflow: 'hidden' }}>
+              {/* Top accent line */}
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(90deg, transparent, ${c.color}, transparent)` }}/>
+              <span style={{ fontFamily: 'Syne', fontSize: '0.65rem', letterSpacing: '0.12em', color: c.color, opacity: 0.8 }}>{c.tag}</span>
+              <h3 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: '1.2rem', margin: '0.75rem 0 1.25rem' }}>{c.label}</h3>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                {c.bullets.map((b, j) => (
+                  <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', fontSize: '0.87rem', color: j === c.bullets.length - 1 ? 'rgba(200,220,255,0.9)' : 'rgba(168,196,255,0.65)' }}>
+                    <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: j === c.bullets.length - 1 ? c.color : 'rgba(100,150,255,0.4)', flexShrink: 0, marginTop: '0.45rem', boxShadow: j === c.bullets.length - 1 ? `0 0 6px ${c.color}` : 'none' }}/>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── CTA Banner ─── */
+function CTABanner() {
+  return (
+    <section style={{ padding: '8rem 2rem' }}>
+      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        <div className="cta-banner" style={{ borderRadius: '20px', padding: 'clamp(3rem,6vw,5rem) clamp(2rem,5vw,4rem)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+          {/* Background dots */}
+          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle, rgba(100,150,255,0.08) 1px, transparent 1px)', backgroundSize: '32px 32px', pointerEvents: 'none' }}/>
+          <p style={{ fontFamily: 'Syne', fontSize: '0.72rem', letterSpacing: '0.18em', color: 'rgba(0,212,255,0.7)', marginBottom: '1.5rem' }}>READY TO BUILD</p>
+          <h2 style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)', fontFamily: 'Syne', fontWeight: 800, marginBottom: '1.5rem' }}>
+            <span className="glow-text">Let's build your<br/>SaaS platform.</span>
+          </h2>
+          <p style={{ color: 'rgba(168,196,255,0.65)', maxWidth: '480px', margin: '0 auto 2.5rem', lineHeight: 1.7, fontSize: '0.98rem' }}>
+            Whether you're starting from zero or scaling an existing system, we move fast and build for the long term.
+          </p>
+          <a href="#contact" className="btn-primary" style={{ fontSize: '0.95rem', padding: '0.9rem 2.5rem' }}>Book a Call →</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Contact ─── */
+function Contact() {
+  const [form, setForm] = useState({ name: '', email: '', company: '', message: '' });
+  const [errors, setErrors] = useState({});
+  const [sent, setSent] = useState(false);
+
+  const validate = () => {
+    const e = {};
+    if (!form.name.trim()) e.name = 'Required';
+    if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) e.email = 'Valid email required';
+    if (!form.message.trim()) e.message = 'Required';
+    return e;
+  };
+
+  const handleSubmit = () => {
+    const e = validate();
+    if (Object.keys(e).length) { setErrors(e); return; }
+    setSent(true);
+  };
+
+  return (
+    <section id="contact" style={{ padding: '8rem 2rem' }}>
+      <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <p style={{ fontFamily: 'Syne', fontSize: '0.72rem', letterSpacing: '0.18em', color: 'rgba(0,212,255,0.7)', marginBottom: '1rem' }}>GET IN TOUCH</p>
+          <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontFamily: 'Syne', fontWeight: 800, marginBottom: '1rem' }}>
+            <span className="glow-text">Start a conversation.</span>
+          </h2>
+          <a href="mailto:contact@kainosoft.com" style={{ color: 'rgba(0,212,255,0.8)', fontFamily: 'Syne', fontSize: '0.9rem', textDecoration: 'none', letterSpacing: '0.04em' }}>
+            contact@kainosoft.com
+          </a>
+        </div>
+
+        {sent ? (
+          <div style={{ textAlign: 'center', padding: '3rem', background: 'rgba(0,212,255,0.05)', border: '1px solid rgba(0,212,255,0.2)', borderRadius: '12px' }}>
+            <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(0,212,255,0.1)', border: '1px solid rgba(0,212,255,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem' }}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10 L8 14 L16 6" stroke="#00d4ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </div>
+            <h3 style={{ fontFamily: 'Syne', fontSize: '1.2rem', marginBottom: '0.5rem' }}>Message received.</h3>
+            <p style={{ color: 'rgba(168,196,255,0.65)', fontSize: '0.9rem' }}>We'll be in touch within one business day.</p>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            {[
+              { key: 'name', label: 'Name', placeholder: 'Your name', type: 'text' },
+              { key: 'email', label: 'Email', placeholder: 'you@company.com', type: 'email' },
+              { key: 'company', label: 'Company', placeholder: 'Company name (optional)', type: 'text' },
+            ].map(f => (
+              <div key={f.key}>
+                <label style={{ display: 'block', fontFamily: 'Syne', fontSize: '0.75rem', letterSpacing: '0.08em', color: 'rgba(168,196,255,0.7)', marginBottom: '0.5rem' }}>{f.label.toUpperCase()}</label>
+                <input type={f.type} placeholder={f.placeholder} className="form-input"
+                       value={form[f.key]}
+                       onChange={e => { setForm({...form, [f.key]: e.target.value}); setErrors({...errors, [f.key]: ''}); }}/>
+                {errors[f.key] && <p style={{ color: 'rgba(255,100,100,0.8)', fontSize: '0.75rem', marginTop: '0.3rem' }}>{errors[f.key]}</p>}
+              </div>
+            ))}
+            <div>
+              <label style={{ display: 'block', fontFamily: 'Syne', fontSize: '0.75rem', letterSpacing: '0.08em', color: 'rgba(168,196,255,0.7)', marginBottom: '0.5rem' }}>MESSAGE</label>
+              <textarea placeholder="Tell us about your project..." className="form-input" rows="5"
+                        style={{ resize: 'vertical' }}
+                        value={form.message}
+                        onChange={e => { setForm({...form, message: e.target.value}); setErrors({...errors, message: ''}); }}/>
+              {errors.message && <p style={{ color: 'rgba(255,100,100,0.8)', fontSize: '0.75rem', marginTop: '0.3rem' }}>{errors.message}</p>}
+            </div>
+            <button onClick={handleSubmit} className="btn-primary" style={{ alignSelf: 'flex-start', padding: '0.9rem 2.5rem' }}>Send Message</button>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/* ─── Footer ─── */
+function Footer() {
+  return (
+    <footer style={{ borderTop: '1px solid rgba(100,150,255,0.1)', padding: '3rem 2rem' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem' }}>
+        <div>
+          <span style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: '1rem', letterSpacing: '0.02em' }}>
+            <span className="glow-text">KAINO</span><span style={{ color: 'rgba(200,220,255,0.4)' }}>SOFT</span>
+          </span>
+          <p style={{ fontSize: '0.78rem', color: 'rgba(150,175,220,0.4)', marginTop: '0.35rem' }}>SaaS Engineering on Azure</p>
+        </div>
+        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+          {['Services','Process','Tech','Work','Contact'].map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: 'rgba(168,196,255,0.4)', fontSize: '0.82rem', textDecoration: 'none', fontFamily: 'Syne', letterSpacing: '0.06em', transition: 'color 0.2s ease' }}
+               onMouseEnter={e => e.target.style.color='rgba(168,196,255,0.8)'}
+               onMouseLeave={e => e.target.style.color='rgba(168,196,255,0.4)'}>
+              {l}
+            </a>
+          ))}
+        </div>
+        <p style={{ fontSize: '0.75rem', color: 'rgba(150,175,220,0.3)', fontFamily: 'Syne' }}>
+          © {new Date().getFullYear()} Kainosoft
+        </p>
+      </div>
+    </footer>
+  );
+}
+
+/* ─── App ─── */
+function App() {
+  return (
+    <>
+      <ParticleBackground/>
+      <Nav/>
+      <main>
+        <Hero/>
+        <div className="section-divider"/>
+        <Services/>
+        <div className="section-divider"/>
+        <Process/>
+        <div className="section-divider"/>
+        <TechStack/>
+        <div className="section-divider"/>
+        <CaseStudies/>
+        <CTABanner/>
+        <div className="section-divider"/>
+        <Contact/>
+      </main>
+      <Footer/>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
