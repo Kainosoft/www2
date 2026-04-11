@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kainosoft — Build and Scale SaaS Platforms</title>
+  <meta name="description" content="Azure-native SaaS development with Python, AI integration, and rapid MVP delivery." />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --bg2: #edf0f8;
+      --surface: #ffffff;
+      --border: rgba(30,80,200,0.12);
+      --blue: #1a5ae8;
+      --blue-dark: #1245c0;
+      --cyan: #0099cc;
+      --purple: #6530cc;
+      --text: #0d1a35;
+      --text-mid: #3a4a70;
+      --muted: #7a8aaa;
+      --card-bg: #ffffff;
+      --card-border: rgba(30,80,200,0.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+    .section-title { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; }
+    .font-display { font-family: 'Syne', sans-serif; }
+
+    #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.45; }
+
+    /* Light theme gradient text */
+    .glow-text {
+      background: linear-gradient(135deg, #0d1a35 0%, #1a5ae8 50%, #0099cc 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .title-gradient {
+      background: linear-gradient(120deg, #0d1a35 0%, #1a5ae8 40%, #6530cc 70%, #0099cc 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+      color: #fff; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9rem;
+      letter-spacing: 0.04em; padding: 0.8rem 2rem; border-radius: 6px; border: none;
+      cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 20px rgba(26,90,232,0.3); text-decoration: none; display: inline-block;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(26,90,232,0.45); }
+
+    .btn-secondary {
+      background: transparent; color: var(--text); font-family: 'Syne', sans-serif;
+      font-weight: 600; font-size: 0.9rem; letter-spacing: 0.04em; padding: 0.8rem 2rem;
+      border-radius: 6px; border: 1.5px solid rgba(30,80,200,0.3); cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-secondary:hover { border-color: var(--blue); background: rgba(26,90,232,0.05); transform: translateY(-2px); }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(30,80,200,0.06);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .card:hover { border-color: rgba(26,90,232,0.3); box-shadow: 0 12px 40px rgba(30,80,200,0.12); transform: translateY(-4px); }
+
+    .nav-blur {
+      background: rgba(244,246,251,0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(30,80,200,0.1);
+      box-shadow: 0 2px 20px rgba(30,80,200,0.06);
+    }
+
+    section { position: relative; z-index: 1; }
+
+    .section-divider {
+      height: 1px; position: relative; z-index: 1;
+      background: linear-gradient(90deg, transparent 0%, rgba(26,90,232,0.15) 30%, rgba(0,153,204,0.25) 50%, rgba(26,90,232,0.15) 70%, transparent 100%);
+      margin: 0 auto; max-width: 900px;
+    }
+
+    .tech-badge {
+      background: var(--surface); border: 1.5px solid rgba(30,80,200,0.14);
+      border-radius: 10px; padding: 0.75rem 1.25rem;
+      font-family: 'Syne', sans-serif; font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.06em; color: var(--text-mid);
+      box-shadow: 0 2px 8px rgba(30,80,200,0.05);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    }
+    .tech-badge:hover { border-color: var(--blue); box-shadow: 0 4px 20px rgba(26,90,232,0.12); transform: translateY(-2px); }
+
+    .form-input {
+      background: var(--surface); border: 1.5px solid rgba(30,80,200,0.18);
+      border-radius: 8px; padding: 0.85rem 1.1rem; color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem; width: 100%; outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-input::placeholder { color: rgba(122,138,170,0.7); }
+    .form-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,90,232,0.1); }
+
+    /* Logo upload zone */
+    .logo-upload-zone {
+      border: 1.5px dashed rgba(30,80,200,0.3); border-radius: 8px;
+      padding: 0.5rem 1rem; cursor: pointer; transition: all 0.2s ease;
+      display: flex; align-items: center; gap: 0.5rem; position: relative;
+    }
+    .logo-upload-zone:hover { border-color: var(--blue); background: rgba(26,90,232,0.04); }
+    .logo-upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse-glow { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+    @keyframes float { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+    @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+    .animate-fade-up { animation: fadeUp 0.8s ease forwards; }
+    .delay-1 { animation-delay: 0.15s; } .delay-2 { animation-delay: 0.3s; }
+    .delay-3 { animation-delay: 0.45s; } .delay-4 { animation-delay: 0.6s; }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-pulse { animation: pulse-glow 3s ease-in-out infinite; }
+
+    .hero-headline { font-size: clamp(2.8rem, 6vw, 5.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; }
+
+    .connector { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(26,90,232,0.4), rgba(101,48,204,0.4)); position: relative; }
+    .connector::after { content: ''; position: absolute; right: 0; top: -3px; width: 7px; height: 7px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 8px rgba(26,90,232,0.6); animation: pulse-glow 2s ease-in-out infinite; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: rgba(30,80,200,0.2); border-radius: 3px; }
+
+    @media (max-width: 768px) { .hero-headline { font-size: clamp(2rem, 8vw, 3rem); } }
+  </style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ── Light particles ── */
+function ParticleBackground() {
+  useEffect(() => {
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, nodes, animId;
+    const COLORS = ['rgba(26,90,232,','rgba(0,153,204,','rgba(101,48,204,'];
+    function init() {
+      W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight;
+      const count = Math.floor((W * H) / 20000);
+      nodes = Array.from({length: count}, () => ({
+        x: Math.random()*W, y: Math.random()*H,
+        vx: (Math.random()-0.5)*0.25, vy: (Math.random()-0.5)*0.25,
+        r: Math.random()*1.2+0.4, color: COLORS[Math.floor(Math.random()*3)],
+        pulse: Math.random()*Math.PI*2,
+      }));
+    }
+    function draw() {
+      ctx.clearRect(0,0,W,H);
+      for(let i=0;i<nodes.length;i++) for(let j=i+1;j<nodes.length;j++) {
+        const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y, d=Math.sqrt(dx*dx+dy*dy);
+        if(d<160){ ctx.beginPath(); ctx.strokeStyle=`rgba(26,90,232,${(1-d/160)*.1})`; ctx.lineWidth=.8; ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.stroke(); }
+      }
+      nodes.forEach(n => {
+        n.pulse+=.018; const gl=.5+.5*Math.sin(n.pulse);
+        ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2); ctx.fillStyle=n.color+(0.25+0.25*gl)+')'; ctx.fill();
+        n.x+=n.vx; n.y+=n.vy;
+        if(n.x<0||n.x>W) n.vx*=-1; if(n.y<0||n.y>H) n.vy*=-1;
+      });
+      animId = requestAnimationFrame(draw);
+    }
+    init(); draw(); window.addEventListener('resize',init);
+    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize',init); };
+  }, []);
+  return null;
+}
+
+/* ── Logo Upload ── */
+function LogoUpload({ logoSrc, onLogoChange, size = 'nav' }) {
+  const inputRef = useRef(null);
+  const handleFile = (e) => {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => onLogoChange(ev.target.result);
+    reader.readAsDataURL(file);
+  };
+  const h = size === 'footer' ? '28px' : '36px';
+  if (logoSrc) {
+    return (
+      <div className="logo-upload-zone" title="Click to change logo" style={{ border:'none', padding:'0' }}>
+        <img src={logoSrc} alt="Kainosoft" style={{ height:h, width:'auto', objectFit:'contain', display:'block' }} />
+        <input ref={inputRef} type="file" accept="image/*" onChange={handleFile} title="Change logo" />
+      </div>
+    );
+  }
+  return (
+    <div className="logo-upload-zone" title="Upload your logo">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M8 3v7M5 6l3-3 3 3" stroke="rgba(26,90,232,0.7)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M3 12h10" stroke="rgba(26,90,232,0.4)" strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+      <span style={{ fontFamily:'Syne', fontSize:'0.72rem', letterSpacing:'0.08em', color:'rgba(26,90,232,0.7)' }}>Upload logo</span>
+      <input ref={inputRef} type="file" accept="image/*" onChange={handleFile} />
+    </div>
+  );
+}
+
+/* ── Nav ── */
+function Nav({ logoSrc, onLogoChange }) {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', fn); return () => window.removeEventListener('scroll', fn);
+  }, []);
+  const links = ['Services','Process','Tech','Work','Contact'];
+  return (
+    <nav style={{ position:'fixed', top:0, left:0, right:0, zIndex:100, transition:'all 0.3s ease' }} className={scrolled?'nav-blur':''}>
+      <div style={{ maxWidth:'1200px', margin:'0 auto', padding:'0 2rem', height:'68px', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+        <LogoUpload logoSrc={logoSrc} onLogoChange={onLogoChange} size="nav" />
+        <div className="hidden md:flex" style={{ gap:'2.5rem', alignItems:'center' }}>
+          {links.map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`}
+               style={{ color:'var(--text-mid)', fontFamily:'Syne', fontSize:'0.88rem', textDecoration:'none', letterSpacing:'0.04em', transition:'color 0.2s ease' }}
+               onMouseEnter={e=>e.target.style.color='var(--text)'} onMouseLeave={e=>e.target.style.color='var(--text-mid)'}>{l}</a>
+          ))}
+          <a href="#contact" className="btn-primary" style={{ padding:'0.55rem 1.4rem', fontSize:'0.82rem' }}>Book a Call</a>
+        </div>
+        <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden"
+                style={{ background:'none', border:'none', cursor:'pointer', padding:'0.5rem' }}>
+          <div style={{ width:'22px', height:'2px', background:'var(--text)', margin:'5px 0', transition:'all 0.3s', transform:mobileOpen?'rotate(45deg) translate(5px,5px)':'none' }}/>
+          <div style={{ width:'22px', height:'2px', background:'var(--text)', margin:'5px 0', opacity:mobileOpen?0:1, transition:'opacity 0.3s' }}/>
+          <div style={{ width:'22px', height:'2px', background:'var(--text)', margin:'5px 0', transition:'all 0.3s', transform:mobileOpen?'rotate(-45deg) translate(5px,-5px)':'none' }}/>
+        </button>
+      </div>
+      {mobileOpen && (
+        <div style={{ background:'rgba(244,246,251,0.98)', backdropFilter:'blur(20px)', borderTop:'1px solid rgba(30,80,200,0.1)', padding:'1.5rem 2rem 2rem' }}>
+          {links.map(l => <a key={l} href={`#${l.toLowerCase()}`} onClick={()=>setMobileOpen(false)}
+            style={{ display:'block', padding:'0.8rem 0', color:'var(--text)', fontFamily:'Syne', fontSize:'1.1rem', textDecoration:'none', borderBottom:'1px solid rgba(30,80,200,0.08)' }}>{l}</a>)}
+          <a href="#contact" className="btn-primary" style={{ marginTop:'1.5rem', display:'block', textAlign:'center' }}>Book a Call</a>
+        </div>
+      )}
+    </nav>
+  );
+}
+
+/* ── Hero ── */
+function Hero() {
+  return (
+    <section id="hero" style={{ minHeight:'100vh', display:'flex', alignItems:'center', padding:'7rem 2rem 4rem', position:'relative', overflow:'hidden' }}>
+      {/* Soft radial bg */}
+      <div style={{ position:'absolute', top:'10%', left:'60%', width:'700px', height:'700px', background:'radial-gradient(ellipse, rgba(26,90,232,0.08) 0%, rgba(101,48,204,0.05) 40%, transparent 70%)', pointerEvents:'none', transform:'translateX(-50%)' }}/>
+      <div style={{ position:'absolute', bottom:'10%', left:'10%', width:'400px', height:'400px', background:'radial-gradient(ellipse, rgba(0,153,204,0.06) 0%, transparent 70%)', pointerEvents:'none' }}/>
+
+      <div style={{ maxWidth:'1200px', margin:'0 auto', width:'100%' }}>
+        <div style={{ maxWidth:'780px' }}>
+          <div className="animate-fade-up" style={{ display:'inline-flex', alignItems:'center', gap:'0.6rem', background:'rgba(26,90,232,0.08)', border:'1px solid rgba(26,90,232,0.2)', borderRadius:'100px', padding:'0.35rem 1rem 0.35rem 0.6rem', marginBottom:'2rem' }}>
+            <span style={{ width:'6px', height:'6px', borderRadius:'50%', background:'var(--blue)', boxShadow:'0 0 8px rgba(26,90,232,0.5)', display:'inline-block' }} className="animate-pulse"/>
+            <span style={{ fontFamily:'Syne', fontSize:'0.75rem', letterSpacing:'0.1em', color:'var(--blue)' }}>AZURE-NATIVE SAAS ENGINEERING</span>
+          </div>
+          <h1 className="hero-headline glow-text animate-fade-up delay-1" style={{ marginBottom:'1.75rem', fontFamily:'Syne', fontWeight:800 }}>
+            Build and Scale<br/>SaaS Platforms<br/>Faster
+          </h1>
+          <p className="animate-fade-up delay-2" style={{ fontSize:'clamp(1rem,2.2vw,1.2rem)', color:'var(--text-mid)', lineHeight:1.75, marginBottom:'2.5rem', maxWidth:'560px', fontWeight:300 }}>
+            Azure-native SaaS development with Python, AI integration, and rapid MVP delivery. From architecture to production.
+          </p>
+          <div className="animate-fade-up delay-3" style={{ display:'flex', gap:'1rem', flexWrap:'wrap', marginBottom:'3rem' }}>
+            <a href="#contact" className="btn-primary">Book a Call</a>
+            <a href="#contact" className="btn-secondary">Contact Us</a>
+          </div>
+          <div className="animate-fade-up delay-4" style={{ display:'flex', alignItems:'center', gap:'1rem', flexWrap:'wrap' }}>
+            {['Azure','Python','Django','AI'].map((t,i) => (
+              <React.Fragment key={t}>
+                <span style={{ fontFamily:'Syne', fontSize:'0.78rem', letterSpacing:'0.08em', color:'var(--muted)', fontWeight:600 }}>{t}</span>
+                {i<3 && <span style={{ width:'4px', height:'4px', borderRadius:'50%', background:'rgba(26,90,232,0.3)', display:'inline-block' }}/>}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Hero graphic */}
+      <div style={{ position:'absolute', right:'-60px', top:'50%', transform:'translateY(-50%)', width:'520px', height:'520px', opacity:0.5, pointerEvents:'none' }} className="animate-float">
+        <svg viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width:'100%', height:'100%' }}>
+          <defs>
+            <linearGradient id="lhg1" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#1a5ae8" stopOpacity="0.9"/><stop offset="1" stopColor="#0099cc" stopOpacity="0.3"/></linearGradient>
+            <linearGradient id="lhg2" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#6530cc" stopOpacity="0.7"/><stop offset="1" stopColor="#1a5ae8" stopOpacity="0.2"/></linearGradient>
+            <linearGradient id="lhg3" x1="0" y1="1" x2="1" y2="0"><stop stopColor="#0099cc" stopOpacity="0.6"/><stop offset="1" stopColor="#6530cc" stopOpacity="0.1"/></linearGradient>
+            <filter id="lglow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <path d="M80 260 Q180 160 260 200 Q340 240 440 160" stroke="url(#lhg1)" strokeWidth="1.5" fill="none" filter="url(#lglow)"/>
+          <path d="M80 300 Q160 340 260 280 Q360 220 440 260" stroke="url(#lhg2)" strokeWidth="1.5" fill="none" filter="url(#lglow)"/>
+          <path d="M80 340 Q200 420 300 360 Q380 310 440 360" stroke="url(#lhg3)" strokeWidth="1.5" fill="none" filter="url(#lglow)"/>
+          <path d="M80 220 Q140 180 220 200 L300 200 Q380 200 440 140" stroke="url(#lhg1)" strokeWidth="0.8" strokeDasharray="6 4" fill="none" opacity="0.4"/>
+          {[[80,260],[260,200],[440,160],[260,280],[440,260],[300,360],[440,360],[220,200],[440,140]].map(([x,y],i) => (
+            <circle key={i} cx={x} cy={y} r="4" fill={i%3===0?"#1a5ae8":i%3===1?"#6530cc":"#0099cc"} filter="url(#lglow)" opacity="0.9"/>
+          ))}
+          {[100,160,220,280,340,400,460].map(x => <line key={x} x1={x} y1="80" x2={x} y2="440" stroke="rgba(30,80,200,0.06)" strokeWidth="1"/>)}
+          {[100,160,220,280,340,400].map(y => <line key={y} x1="60" y1={y} x2="480" y2={y} stroke="rgba(30,80,200,0.06)" strokeWidth="1"/>)}
+          <circle cx="260" cy="260" r="40" stroke="rgba(26,90,232,0.12)" strokeWidth="1" fill="none"/>
+          <circle cx="260" cy="260" r="25" stroke="rgba(26,90,232,0.2)" strokeWidth="1" fill="none"/>
+          <circle cx="260" cy="260" r="6" fill="url(#lhg1)" filter="url(#lglow)"/>
+        </svg>
+      </div>
+
+      <div style={{ position:'absolute', bottom:'2.5rem', left:'50%', transform:'translateX(-50%)', display:'flex', flexDirection:'column', alignItems:'center', gap:'0.5rem' }}>
+        <span style={{ fontFamily:'Syne', fontSize:'0.65rem', letterSpacing:'0.15em', color:'var(--muted)' }}>SCROLL</span>
+        <div style={{ width:'1px', height:'40px', background:'linear-gradient(180deg, rgba(26,90,232,0.5), transparent)' }} className="animate-pulse"/>
+      </div>
+    </section>
+  );
+}
+
+/* ── Section Heading ── */
+function SectionHeading({ eyebrow, title }) {
+  return (
+    <div style={{ textAlign:'center', marginBottom:'5rem' }}>
+      <p style={{ fontFamily:'Syne', fontSize:'0.72rem', letterSpacing:'0.18em', color:'var(--blue)', marginBottom:'1.25rem', opacity:0.8 }}>{eyebrow}</p>
+      <h2 className="section-title title-gradient" style={{ fontSize:'clamp(2rem,4vw,3.2rem)' }}>{title}</h2>
+    </div>
+  );
+}
+
+/* ── Services ── */
+const services = [
+  { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="3" y="3" width="10" height="10" rx="2" stroke="#1a5ae8" strokeWidth="1.5"/><rect x="19" y="3" width="10" height="10" rx="2" stroke="#6530cc" strokeWidth="1.5"/><rect x="3" y="19" width="10" height="10" rx="2" stroke="#6530cc" strokeWidth="1.5"/><rect x="19" y="19" width="10" height="10" rx="2" stroke="#0099cc" strokeWidth="1.5"/><line x1="8" y1="13" x2="8" y2="19" stroke="rgba(30,80,200,0.3)" strokeWidth="1"/><line x1="24" y1="13" x2="24" y2="19" stroke="rgba(30,80,200,0.3)" strokeWidth="1"/><line x1="13" y1="8" x2="19" y2="8" stroke="rgba(30,80,200,0.3)" strokeWidth="1"/><line x1="13" y1="24" x2="19" y2="24" stroke="rgba(30,80,200,0.3)" strokeWidth="1"/></svg>, title:'SaaS Development', desc:'End-to-end SaaS engineering from architecture to production. Built for multi-tenancy and long-term growth.', bullets:['Multi-tenant architecture','Scalable cloud systems on Azure','Built for growth from day one'], accent:'#1a5ae8' },
+  { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="#6530cc" strokeWidth="1.5"/><path d="M10 16 Q13 10 16 14 Q19 18 22 12" stroke="#0099cc" strokeWidth="1.5" fill="none" strokeLinecap="round"/><circle cx="10" cy="16" r="2" fill="#6530cc"/><circle cx="22" cy="12" r="2" fill="#0099cc"/><circle cx="16" cy="14" r="2" fill="rgba(30,80,200,0.4)"/></svg>, title:'AI Integration', desc:'Bring intelligence into your platform with Azure AI services and language model workflows.', bullets:['Azure AI & Cognitive Services','LLM-powered features','Automation & intelligent workflows'], accent:'#6530cc' },
+  { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M6 26 L6 12 L16 6 L26 12 L26 26" stroke="#0099cc" strokeWidth="1.5" fill="none" strokeLinejoin="round"/><path d="M12 26 L12 18 L20 18 L20 26" stroke="#1a5ae8" strokeWidth="1.5" fill="none"/><path d="M4 14 L28 14" stroke="rgba(30,80,200,0.2)" strokeWidth="1" strokeDasharray="3 3"/><circle cx="26" cy="8" r="4" stroke="#6530cc" strokeWidth="1.5" fill="none"/><path d="M24 8 L26 10 L29 6" stroke="#6530cc" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>, title:'Modernization', desc:'Migrate legacy systems to cloud-native infrastructure. Increase performance and reduce operational cost.', bullets:['Legacy → cloud-native migration','Performance & scalability improvements','System redesign & refactoring'], accent:'#0099cc' },
+];
+function Services() {
+  return (
+    <section id="services" style={{ padding:'8rem 2rem' }}>
+      <div style={{ maxWidth:'1200px', margin:'0 auto' }}>
+        <SectionHeading eyebrow="WHAT WE BUILD" title="Three core disciplines" />
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'1.5rem' }}>
+          {services.map((s,i) => (
+            <div key={i} className="card" style={{ padding:'2.2rem' }}>
+              <div style={{ marginBottom:'1.5rem', padding:'0.75rem', background:`rgba(${s.accent==='#1a5ae8'?'26,90,232':s.accent==='#6530cc'?'101,48,204':'0,153,204'},0.08)`, borderRadius:'10px', width:'fit-content', border:`1px solid ${s.accent}22` }}>{s.icon}</div>
+              <h3 style={{ fontFamily:'Syne', fontWeight:700, fontSize:'1.25rem', marginBottom:'0.75rem', color:'var(--text)' }}>{s.title}</h3>
+              <p style={{ color:'var(--muted)', fontSize:'0.9rem', lineHeight:1.7, marginBottom:'1.5rem' }}>{s.desc}</p>
+              <ul style={{ listStyle:'none', display:'flex', flexDirection:'column', gap:'0.6rem' }}>
+                {s.bullets.map((b,j) => (
+                  <li key={j} style={{ display:'flex', alignItems:'flex-start', gap:'0.6rem', fontSize:'0.85rem', color:'var(--text-mid)' }}>
+                    <span style={{ width:'5px', height:'5px', borderRadius:'50%', background:s.accent, flexShrink:0, marginTop:'0.45rem' }}/>{b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Process ── */
+const steps = [
+  {num:'01',title:'Discovery',desc:'Understand product goals, constraints, and system requirements.'},
+  {num:'02',title:'Architecture',desc:'Design a scalable, maintainable system blueprint on Azure.'},
+  {num:'03',title:'Build',desc:'Rapid MVP development with clean, production-ready code.'},
+  {num:'04',title:'Scale',desc:'Iterate, optimize, and extend the platform as you grow.'},
+];
+function Process() {
+  return (
+    <section id="process" style={{ padding:'8rem 2rem', background:'var(--bg2)' }}>
+      <div style={{ maxWidth:'1200px', margin:'0 auto' }}>
+        <SectionHeading eyebrow="HOW IT WORKS" title="The pipeline" />
+        <div className="hidden md:flex" style={{ alignItems:'flex-start', gap:'0' }}>
+          {steps.map((s,i) => (
+            <React.Fragment key={i}>
+              <div style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', textAlign:'center', padding:'0 1.5rem' }}>
+                <div style={{ width:'56px', height:'56px', borderRadius:'50%', background:'linear-gradient(135deg, rgba(26,90,232,0.1), rgba(101,48,204,0.1))', border:'1.5px solid rgba(26,90,232,0.25)', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'1.5rem', boxShadow:'0 4px 12px rgba(26,90,232,0.08)' }}>
+                  <span style={{ fontFamily:'Syne', fontSize:'0.75rem', fontWeight:800, color:'var(--blue)', letterSpacing:'0.05em' }}>{s.num}</span>
+                </div>
+                <h3 style={{ fontFamily:'Syne', fontWeight:700, fontSize:'1.05rem', marginBottom:'0.6rem', color:'var(--text)' }}>{s.title}</h3>
+                <p style={{ color:'var(--muted)', fontSize:'0.85rem', lineHeight:1.65 }}>{s.desc}</p>
+              </div>
+              {i<steps.length-1 && <div style={{ display:'flex', alignItems:'center', marginTop:'28px', minWidth:'40px' }}><div className="connector" style={{ minWidth:'40px' }}/></div>}
+            </React.Fragment>
+          ))}
+        </div>
+        <div className="md:hidden" style={{ display:'flex', flexDirection:'column', gap:'0' }}>
+          {steps.map((s,i) => (
+            <div key={i} style={{ display:'flex', gap:'1.5rem', alignItems:'flex-start', paddingBottom:i<steps.length-1?'2rem':'0', borderLeft:i<steps.length-1?'1px solid rgba(26,90,232,0.2)':'none', marginLeft:'28px' }}>
+              <div style={{ width:'56px', height:'56px', borderRadius:'50%', background:'linear-gradient(135deg, rgba(26,90,232,0.1), rgba(101,48,204,0.1))', border:'1.5px solid rgba(26,90,232,0.25)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginLeft:'-28px' }}>
+                <span style={{ fontFamily:'Syne', fontSize:'0.75rem', fontWeight:800, color:'var(--blue)' }}>{s.num}</span>
+              </div>
+              <div style={{ paddingTop:'0.75rem' }}>
+                <h3 style={{ fontFamily:'Syne', fontWeight:700, fontSize:'1.05rem', marginBottom:'0.5rem', color:'var(--text)' }}>{s.title}</h3>
+                <p style={{ color:'var(--muted)', fontSize:'0.88rem', lineHeight:1.65 }}>{s.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Tech Stack ── */
+const techStack = [
+  {name:'Microsoft Azure',sub:'Cloud Platform',color:'#1a5ae8'},
+  {name:'Azure AI',sub:'Cognitive Services',color:'#6530cc'},
+  {name:'Python',sub:'Core Language',color:'#0099cc'},
+  {name:'Django',sub:'Web Framework',color:'#1a5ae8'},
+  {name:'REST APIs',sub:'Service Architecture',color:'#6530cc'},
+  {name:'Cloud-Native',sub:'Infrastructure',color:'#0099cc'},
+];
+function TechStack() {
+  return (
+    <section id="tech" style={{ padding:'8rem 2rem' }}>
+      <div style={{ maxWidth:'1200px', margin:'0 auto' }}>
+        <SectionHeading eyebrow="TECH STACK" title="Precision tooling" />
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))', gap:'1rem' }}>
+          {techStack.map((t,i) => (
+            <div key={i} className="tech-badge" style={{ display:'flex', flexDirection:'column', gap:'0.25rem', textAlign:'center' }}>
+              <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:t.color, margin:'0 auto 0.5rem', boxShadow:`0 0 8px ${t.color}55` }} className="animate-pulse"/>
+              <span style={{ fontFamily:'Syne', fontSize:'0.88rem', fontWeight:700, color:'var(--text)' }}>{t.name}</span>
+              <span style={{ fontSize:'0.73rem', color:'var(--muted)', fontFamily:'DM Sans' }}>{t.sub}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Case Studies ── */
+const cases = [
+  {label:'Healthcare Platform',tag:'HIPAA-grade SaaS',bullets:['Secure, multi-tenant patient data system','Real-time data access and audit trails','Outcome: 40% improvement in operational efficiency'],color:'#1a5ae8'},
+  {label:'Payroll SaaS',tag:'Multi-tenant Finance',bullets:['End-to-end payroll processing engine','Automated tax workflows and reporting','Outcome: 70% reduction in manual processing'],color:'#6530cc'},
+  {label:'Fitness Platform',tag:'Consumer SaaS',bullets:['Membership management & training tracking','Real-time performance dashboards','Outcome: 5× user growth in 18 months'],color:'#0099cc'},
+];
+function CaseStudies() {
+  return (
+    <section id="work" style={{ padding:'8rem 2rem', background:'var(--bg2)' }}>
+      <div style={{ maxWidth:'1200px', margin:'0 auto' }}>
+        <SectionHeading eyebrow="SELECTED WORK" title="Systems in production" />
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'1.5rem' }}>
+          {cases.map((c,i) => (
+            <div key={i} className="card" style={{ padding:'2.2rem', position:'relative', overflow:'hidden' }}>
+              <div style={{ position:'absolute', top:0, left:0, right:0, height:'3px', background:`linear-gradient(90deg, transparent, ${c.color}aa, transparent)` }}/>
+              <span style={{ fontFamily:'Syne', fontSize:'0.65rem', letterSpacing:'0.12em', color:c.color }}>{c.tag}</span>
+              <h3 style={{ fontFamily:'Syne', fontWeight:700, fontSize:'1.2rem', margin:'0.75rem 0 1.25rem', color:'var(--text)' }}>{c.label}</h3>
+              <ul style={{ listStyle:'none', display:'flex', flexDirection:'column', gap:'0.65rem' }}>
+                {c.bullets.map((b,j) => (
+                  <li key={j} style={{ display:'flex', alignItems:'flex-start', gap:'0.65rem', fontSize:'0.87rem', color:j===c.bullets.length-1?'var(--text)':'var(--muted)' }}>
+                    <span style={{ width:'5px', height:'5px', borderRadius:'50%', background:j===c.bullets.length-1?c.color:'rgba(30,80,200,0.25)', flexShrink:0, marginTop:'0.45rem' }}/>{b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── CTA Banner ── */
+function CTABanner() {
+  return (
+    <section style={{ padding:'8rem 2rem' }}>
+      <div style={{ maxWidth:'900px', margin:'0 auto' }}>
+        <div style={{ background:'linear-gradient(135deg, rgba(26,90,232,0.07) 0%, rgba(101,48,204,0.07) 50%, rgba(0,153,204,0.05) 100%)', border:'1.5px solid rgba(26,90,232,0.14)', borderRadius:'20px', padding:'clamp(3rem,6vw,5rem) clamp(2rem,5vw,4rem)', textAlign:'center', position:'relative', overflow:'hidden', boxShadow:'0 20px 60px rgba(30,80,200,0.08)' }}>
+          <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle, rgba(30,80,200,0.05) 1px, transparent 1px)', backgroundSize:'32px 32px', pointerEvents:'none' }}/>
+          <p style={{ fontFamily:'Syne', fontSize:'0.72rem', letterSpacing:'0.18em', color:'var(--blue)', marginBottom:'1.5rem', opacity:0.8 }}>READY TO BUILD</p>
+          <h2 className="section-title title-gradient" style={{ fontSize:'clamp(2rem,4.5vw,3.5rem)', marginBottom:'1.5rem' }}>
+            Let's build your SaaS platform
+          </h2>
+          <p style={{ color:'var(--text-mid)', maxWidth:'480px', margin:'0 auto 2.5rem', lineHeight:1.7, fontSize:'0.98rem' }}>
+            Whether you're starting from zero or scaling an existing system, we move fast and build for the long term.
+          </p>
+          <a href="#contact" className="btn-primary" style={{ fontSize:'0.95rem', padding:'0.9rem 2.5rem' }}>Book a Call →</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Contact ── */
+function Contact() {
+  const [form, setForm] = useState({name:'',email:'',company:'',message:''});
+  const [errors, setErrors] = useState({});
+  const [sent, setSent] = useState(false);
+  const validate = () => {
+    const e = {};
+    if (!form.name.trim()) e.name = 'Required';
+    if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) e.email = 'Valid email required';
+    if (!form.message.trim()) e.message = 'Required';
+    return e;
+  };
+  const handleSubmit = () => {
+    const e = validate(); if (Object.keys(e).length) { setErrors(e); return; } setSent(true);
+  };
+  return (
+    <section id="contact" style={{ padding:'8rem 2rem', background:'var(--bg2)' }}>
+      <div style={{ maxWidth:'700px', margin:'0 auto' }}>
+        <div style={{ textAlign:'center', marginBottom:'4rem' }}>
+          <p style={{ fontFamily:'Syne', fontSize:'0.72rem', letterSpacing:'0.18em', color:'var(--blue)', marginBottom:'1rem', opacity:0.8 }}>GET IN TOUCH</p>
+          <h2 className="section-title title-gradient" style={{ fontSize:'clamp(2rem,4vw,3rem)', marginBottom:'1rem' }}>Start a conversation</h2>
+          <a href="mailto:contact@kainosoft.com" style={{ color:'var(--blue)', fontFamily:'Syne', fontSize:'0.9rem', textDecoration:'none', letterSpacing:'0.04em' }}>contact@kainosoft.com</a>
+        </div>
+        {sent ? (
+          <div style={{ textAlign:'center', padding:'3rem', background:'var(--surface)', border:'1.5px solid rgba(26,90,232,0.2)', borderRadius:'12px', boxShadow:'0 8px 30px rgba(30,80,200,0.08)' }}>
+            <div style={{ width:'48px', height:'48px', borderRadius:'50%', background:'rgba(26,90,232,0.08)', border:'1.5px solid rgba(26,90,232,0.25)', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 1.5rem' }}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10 L8 14 L16 6" stroke="#1a5ae8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </div>
+            <h3 style={{ fontFamily:'Syne', fontSize:'1.2rem', marginBottom:'0.5rem', color:'var(--text)' }}>Message received</h3>
+            <p style={{ color:'var(--muted)', fontSize:'0.9rem' }}>We'll be in touch within one business day.</p>
+          </div>
+        ) : (
+          <div style={{ display:'flex', flexDirection:'column', gap:'1.25rem' }}>
+            {[{key:'name',label:'Name',placeholder:'Your name',type:'text'},{key:'email',label:'Email',placeholder:'you@company.com',type:'email'},{key:'company',label:'Company',placeholder:'Company name (optional)',type:'text'}].map(f => (
+              <div key={f.key}>
+                <label style={{ display:'block', fontFamily:'Syne', fontSize:'0.75rem', letterSpacing:'0.08em', color:'var(--text-mid)', marginBottom:'0.5rem' }}>{f.label.toUpperCase()}</label>
+                <input type={f.type} placeholder={f.placeholder} className="form-input" value={form[f.key]} onChange={e=>{setForm({...form,[f.key]:e.target.value});setErrors({...errors,[f.key]:''});}}/>
+                {errors[f.key] && <p style={{ color:'rgba(200,50,50,0.8)', fontSize:'0.75rem', marginTop:'0.3rem' }}>{errors[f.key]}</p>}
+              </div>
+            ))}
+            <div>
+              <label style={{ display:'block', fontFamily:'Syne', fontSize:'0.75rem', letterSpacing:'0.08em', color:'var(--text-mid)', marginBottom:'0.5rem' }}>MESSAGE</label>
+              <textarea placeholder="Tell us about your project..." className="form-input" rows="5" style={{ resize:'vertical' }} value={form.message} onChange={e=>{setForm({...form,message:e.target.value});setErrors({...errors,message:''});}}/>
+              {errors.message && <p style={{ color:'rgba(200,50,50,0.8)', fontSize:'0.75rem', marginTop:'0.3rem' }}>{errors.message}</p>}
+            </div>
+            <button onClick={handleSubmit} className="btn-primary" style={{ alignSelf:'flex-start', padding:'0.9rem 2.5rem' }}>Send Message</button>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/* ── Footer ── */
+function Footer({ logoSrc, onLogoChange }) {
+  return (
+    <footer style={{ borderTop:'1.5px solid rgba(30,80,200,0.1)', padding:'3rem 2rem', background:'var(--surface)' }}>
+      <div style={{ maxWidth:'1200px', margin:'0 auto', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'1.5rem' }}>
+        <div>
+          <LogoUpload logoSrc={logoSrc} onLogoChange={onLogoChange} size="footer" />
+          <p style={{ fontSize:'0.78rem', color:'var(--muted)', marginTop:'0.5rem' }}>SaaS Engineering on Azure</p>
+        </div>
+        <div style={{ display:'flex', gap:'2rem', flexWrap:'wrap' }}>
+          {['Services','Process','Tech','Work','Contact'].map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`} style={{ color:'var(--muted)', fontSize:'0.82rem', textDecoration:'none', fontFamily:'Syne', letterSpacing:'0.06em', transition:'color 0.2s ease' }}
+               onMouseEnter={e=>e.target.style.color='var(--text)'} onMouseLeave={e=>e.target.style.color='var(--muted)'}>{l}</a>
+          ))}
+        </div>
+        <p style={{ fontSize:'0.75rem', color:'var(--muted)', fontFamily:'Syne' }}>© {new Date().getFullYear()} Kainosoft</p>
+      </div>
+    </footer>
+  );
+}
+
+/* ── App ── */
+function App() {
+  const [logoSrc, setLogoSrc] = useState(null);
+  return (
+    <>
+      <ParticleBackground/>
+      <Nav logoSrc={logoSrc} onLogoChange={setLogoSrc}/>
+      <main>
+        <Hero/>
+        <div className="section-divider"/>
+        <Services/>
+        <div className="section-divider"/>
+        <Process/>
+        <div className="section-divider"/>
+        <TechStack/>
+        <div className="section-divider"/>
+        <CaseStudies/>
+        <CTABanner/>
+        <div className="section-divider"/>
+        <Contact/>
+      </main>
+      <Footer logoSrc={logoSrc} onLogoChange={setLogoSrc}/>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
