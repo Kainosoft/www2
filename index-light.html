@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kainosoft — AI-Powered SaaS Product Studio</title>
-  <meta name="description" content="Premium SaaS product development with AI integration. From MVP to scalable platforms for founders and startups." />
+  <title>Kainosoft — AI-Powered Software Product Company</title>
+  <meta name="description" content="Premium software product development: SaaS, custom platforms, cloud-native, and AI-powered solutions. We build software as a product, not a project." />
   <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
@@ -186,7 +186,7 @@ function Nav() {
     const fn = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', fn); return () => window.removeEventListener('scroll', fn);
   }, []);
-  const links = ['Services','Process','Tech','Work','Contact'];
+  const links = ['Services','Process','Work','Contact'];
   return (
     <nav style={{ position:'fixed', top:0, left:0, right:0, zIndex:100, transition:'all 0.3s ease' }} className={scrolled?'nav-blur':''}>
       <div style={{ maxWidth:'1200px', margin:'0 auto', padding:'0 2rem', height:'68px', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
@@ -249,16 +249,16 @@ function Hero() {
         <div style={{ maxWidth:'780px' }}>
           <div className="animate-fade-up" style={{ display:'inline-flex', alignItems:'center', gap:'0.6rem', background:'rgba(26,90,232,0.08)', border:'1px solid rgba(26,90,232,0.2)', borderRadius:'100px', padding:'0.35rem 1rem 0.35rem 0.6rem', marginBottom:'2rem' }}>
             <span style={{ width:'6px', height:'6px', borderRadius:'50%', background:'var(--blue)', boxShadow:'0 0 8px rgba(26,90,232,0.5)', display:'inline-block' }} className="animate-pulse"/>
-            <span style={{ fontFamily:'Syne', fontSize:'0.75rem', letterSpacing:'0.1em', color:'var(--blue)' }}>AZURE-NATIVE SAAS ENGINEERING</span>
+            <span style={{ fontFamily:'Syne', fontSize:'0.75rem', letterSpacing:'0.1em', color:'var(--blue)' }}>SOFTWARE ENGINEERING</span>
           </div>
           <h1 className="hero-headline glow-text animate-fade-up delay-1" style={{ marginBottom:'1.75rem', fontFamily:'Syne', fontWeight:800 }}>
-            We Design, Build, and Scale SaaS Products — With AI at the Core
+            We build AI-powered software products.
           </h1>
           <p className="animate-fade-up delay-2" style={{ fontSize:'clamp(1rem,2.2vw,1.2rem)', color:'var(--text-mid)', lineHeight:1.75, marginBottom:'2.5rem', maxWidth:'560px', fontWeight:300 }}>
-            A premium SaaS product studio specializing in end-to-end product engineering, from MVP to scalable platform.
+            A software product company focused on scalable digital platforms: SaaS, custom software, cloud-native systems, and AI-powered solutions for modern businesses. We build software as a product, not a project.
           </p>
           <div className="animate-fade-up delay-3" style={{ display:'flex', gap:'1rem', flexWrap:'wrap', marginBottom:'3rem' }}>
-            <a href="#contact" className="btn-primary">Build Your SaaS with Us</a>
+            <a href="#contact" className="btn-primary">Build Your Software Product with Us</a>
             <a href="#contact" className="btn-secondary">Learn More</a>
           </div>
           <div className="animate-fade-up delay-4" style={{ display:'flex', alignItems:'center', gap:'1rem', flexWrap:'wrap' }}>
@@ -313,9 +313,10 @@ function SectionHeading({ eyebrow, title }) {
 }
 
 const services = [
-  { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="3" y="3" width="10" height="10" rx="2" stroke="#1a5ae8" strokeWidth="1.5"/><rect x="19" y="3" width="10" height="10" rx="2" stroke="#6530cc" strokeWidth="1.5"/><rect x="3" y="19" width="10" height="10" rx="2" stroke="#6530cc" strokeWidth="1.5"/><rect x="19" y="19" width="10" height="10" rx="2" stroke="#0099cc" strokeWidth="1.5"/><line x1="8" y1="13" x2="8" y2="19" stroke="rgba(30,80,200,0.3)" strokeWidth="1"/><line x1="24" y1="13" x2="24" y2="19" stroke="rgba(30,80,200,0.3)" strokeWidth="1"/><line x1="13" y1="8" x2="19" y2="8" stroke="rgba(30,80,200,0.3)" strokeWidth="1"/><line x1="13" y1="24" x2="19" y2="24" stroke="rgba(30,80,200,0.3)" strokeWidth="1"/></svg>, title:'SaaS Development', desc:'End-to-end SaaS platforms, multi-tenant, subscription-ready, cloud-native.', bullets:['Multi-tenant architecture','Scalable cloud systems','Built for growth'], accent:'#1a5ae8' },
-  { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="#6530cc" strokeWidth="1.5"/><path d="M10 16 Q13 10 16 14 Q19 18 22 12" stroke="#0099cc" strokeWidth="1.5" fill="none" strokeLinecap="round"/><circle cx="10" cy="16" r="2" fill="#6530cc"/><circle cx="22" cy="12" r="2" fill="#0099cc"/><circle cx="16" cy="14" r="2" fill="rgba(30,80,200,0.4)"/></svg>, title:'AI Integration', desc:'Practical AI inside real SaaS products for automation, intelligence, and workflows.', bullets:['Embedded AI capabilities','Intelligent automation','Workflow optimization'], accent:'#6530cc' },
-  { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M6 26 L6 12 L16 6 L26 12 L26 26" stroke="#0099cc" strokeWidth="1.5" fill="none" strokeLinejoin="round"/><path d="M12 26 L12 18 L20 18 L20 26" stroke="#1a5ae8" strokeWidth="1.5" fill="none"/><path d="M4 14 L28 14" stroke="rgba(30,80,200,0.2)" strokeWidth="1" strokeDasharray="3 3"/><circle cx="26" cy="8" r="4" stroke="#6530cc" strokeWidth="1.5" fill="none"/><path d="M24 8 L26 10 L29 6" stroke="#6530cc" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>, title:'Product Engineering', desc:'Architecture, platform decisions, MVP scope, and scaling strategy.', bullets:['System architecture design','MVP planning','Scaling strategy'], accent:'#0099cc' },
+  { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="3" y="3" width="10" height="10" rx="2" stroke="#1a5ae8" strokeWidth="1.5"/><rect x="19" y="3" width="10" height="10" rx="2" stroke="#6530cc" strokeWidth="1.5"/><rect x="3" y="19" width="10" height="10" rx="2" stroke="#6530cc" strokeWidth="1.5"/><rect x="19" y="19" width="10" height="10" rx="2" stroke="#0099cc" strokeWidth="1.5"/></svg>, title:'SaaS & Platform Engineering', desc:'End-to-end SaaS, custom platforms, and cloud-native systems.', bullets:['Multi-tenant & custom architectures','Cloud-native & scalable','Built for growth'], accent:'#1a5ae8' },
+  { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="#6530cc" strokeWidth="1.5"/><path d="M10 16 Q13 10 16 14 Q19 18 22 12" stroke="#0099cc" strokeWidth="1.5" fill="none"/></svg>, title:'AI Integration', desc:'Practical AI for automation, intelligence, and business workflows.', bullets:['Embedded AI capabilities','Intelligent automation','Workflow optimization'], accent:'#6530cc' },
+  { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M6 26 L6 12 L16 6 L26 12 L26 26" stroke="#0099cc" strokeWidth="1.5" fill="none" strokeLinejoin="round"/><path d="M12 26 L12 18 L20 18 L20 26" stroke="#1a5ae8" strokeWidth="1.5" fill="none"/><path d="M4 14 L28 14" stroke="rgba(30,80,200,0.2)" strokeWidth="1" strokeDasharray="3 3"/><circle cx="26" cy="8" r="4" stroke="#6530cc" strokeWidth="1.5" fill="none"/><path d="M24 8 L26 10 L29 6" stroke="#6530cc" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>, title:'Custom Software & Modernization', desc:'From new builds to legacy modernization and integrations.', bullets:['Custom app development','Legacy system modernization','API & system integrations'], accent:'#0099cc' },
+  { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="6" y="6" width="20" height="20" rx="4" stroke="#1a5ae8" strokeWidth="1.5"/></svg>, title:'Consulting & Product Strategy', desc:'Product vision, architecture, and go-to-market strategy.', bullets:['Product strategy','Architecture consulting','Go-to-market planning'], accent:'#1a5ae8' },
 ];
 function Services() {
   return (
@@ -343,13 +344,13 @@ function Services() {
   );
 }
 
-const steps = [
-  {num:'01',title:'Product Alignment',desc:'Align on product vision, goals, and requirements.'},
-  {num:'02',title:'System & Architecture Design',desc:'Design scalable system blueprint and architecture.'},
-  {num:'03',title:'Build & Iterate',desc:'Develop MVP and iterate based on feedback.'},
-  {num:'04',title:'Launch, Operate & Scale',desc:'Launch, operate, and scale the platform.'},
-];
 function Process() {
+  const steps = [
+    {num:'01',title:'Product Alignment',desc:'Align on product vision, goals, and requirements.'},
+    {num:'02',title:'System & Architecture Design',desc:'Design scalable system blueprint and architecture.'},
+    {num:'03',title:'Build & Iterate',desc:'Develop MVP and iterate based on feedback.'},
+    {num:'04',title:'Launch, Operate & Scale',desc:'Launch, operate, and scale the platform.'},
+  ];
   return (
     <section id="process" style={{ padding:'8rem 2rem', background:'var(--bg2)' }}>
       <div style={{ maxWidth:'1200px', margin:'0 auto' }}>
@@ -368,75 +369,32 @@ function Process() {
             </React.Fragment>
           ))}
         </div>
-        <div className="md:hidden" style={{ display:'flex', flexDirection:'column', gap:'0' }}>
-          {steps.map((s,i) => (
-            <div key={i} style={{ display:'flex', gap:'1.5rem', alignItems:'flex-start', paddingBottom:i<steps.length-1?'2rem':'0', borderLeft:i<steps.length-1?'1px solid rgba(26,90,232,0.2)':'none', marginLeft:'28px' }}>
-              <div style={{ width:'56px', height:'56px', borderRadius:'50%', background:'linear-gradient(135deg, rgba(26,90,232,0.1), rgba(101,48,204,0.1))', border:'1.5px solid rgba(26,90,232,0.25)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginLeft:'-28px' }}>
-                <span style={{ fontFamily:'Syne', fontSize:'0.75rem', fontWeight:800, color:'var(--blue)' }}>{s.num}</span>
-              </div>
-              <div style={{ paddingTop:'0.75rem' }}>
-                <h3 style={{ fontFamily:'Syne', fontWeight:700, fontSize:'1.05rem', marginBottom:'0.5rem', color:'var(--text)' }}>{s.title}</h3>
-                <p style={{ color:'var(--muted)', fontSize:'0.88rem', lineHeight:1.65 }}>{s.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );
 }
 
-const techStack = [
-  {name:'Microsoft Azure',sub:'Cloud Platform',color:'#1a5ae8'},
-  {name:'Azure AI',sub:'Cognitive Services',color:'#6530cc'},
-  {name:'Python',sub:'Core Language',color:'#0099cc'},
-  {name:'Django',sub:'Web Framework',color:'#1a5ae8'},
-  {name:'REST APIs',sub:'Service Architecture',color:'#6530cc'},
-  {name:'Cloud-Native',sub:'Infrastructure',color:'#0099cc'},
-];
-function TechStack() {
-  return (
-    <section id="tech" style={{ padding:'8rem 2rem' }}>
-      <div style={{ maxWidth:'1200px', margin:'0 auto' }}>
-        <SectionHeading eyebrow="TECH STACK" title="Precision tooling" />
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))', gap:'1rem' }}>
-          {techStack.map((t,i) => (
-            <div key={i} className="tech-badge" style={{ display:'flex', flexDirection:'column', gap:'0.25rem', textAlign:'center' }}>
-              <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:t.color, margin:'0 auto 0.5rem', boxShadow:`0 0 8px ${t.color}55` }} className="animate-pulse"/>
-              <span style={{ fontFamily:'Syne', fontSize:'0.88rem', fontWeight:700, color:'var(--text)' }}>{t.name}</span>
-              <span style={{ fontSize:'0.73rem', color:'var(--muted)', fontFamily:'DM Sans' }}>{t.sub}</span>
-            </div>
-          ))}
-        </div>
-        <img src="images/logo-vertical-blue.png" alt="Kainosoft" style={{ display:'block', margin:'3rem auto 0', height:'170px', width:'auto', opacity:0.75 }} />
-      </div>
-    </section>
-  );
-}
+
+
 
 const cases = [
-  {label:'Healthcare Platform',tag:'HIPAA-grade SaaS',bullets:['Secure, multi-tenant patient data system','Real-time data access and audit trails','Outcome: 40% improvement in operational efficiency'],color:'#1a5ae8'},
-  {label:'Payroll SaaS',tag:'Multi-tenant Finance',bullets:['End-to-end payroll processing engine','Automated tax workflows and reporting','Outcome: 70% reduction in manual processing'],color:'#6530cc'},
-  {label:'Fitness Platform',tag:'Consumer SaaS',bullets:['Membership management & training tracking','Real-time performance dashboards','Outcome: 5× user growth in 18 months'],color:'#0099cc'},
+  {label:'Healthcare Platform',tag:'HIPAA-grade SaaS',desc:'Secure, multi-tenant patient data system for healthcare providers.'},
+  {label:'Payroll SaaS',tag:'Finance SaaS',desc:'End-to-end payroll processing engine for mid-market companies.'},
+  {label:'Fitness Platform',tag:'Consumer SaaS',desc:'Membership management & training tracking for gyms.'},
+  {label:'Custom ERP',tag:'Custom Software',desc:'Tailored ERP for manufacturing, integrating legacy and cloud.'},
+  {label:'API Integrations',tag:'Integration',desc:'Connecting business systems for automation and data flow.'},
 ];
 function CaseStudies() {
   return (
     <section id="work" style={{ padding:'8rem 2rem', background:'var(--bg2)' }}>
       <div style={{ maxWidth:'1200px', margin:'0 auto' }}>
-        <SectionHeading eyebrow="SELECTED PRODUCTS" title="Platforms in production" />
+        <SectionHeading eyebrow="SELECTED PROJECTS" title="Platforms & Software in Production" />
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'1.5rem' }}>
           {cases.map((c,i) => (
             <div key={i} className="card" style={{ padding:'2.2rem', position:'relative', overflow:'hidden' }}>
-              <div style={{ position:'absolute', top:0, left:0, right:0, height:'3px', background:`linear-gradient(90deg, transparent, ${c.color}aa, transparent)` }}/>
-              <span style={{ fontFamily:'Syne', fontSize:'0.65rem', letterSpacing:'0.12em', color:c.color }}>{c.tag}</span>
-              <h3 style={{ fontFamily:'Syne', fontWeight:700, fontSize:'1.2rem', margin:'0.75rem 0 1.25rem', color:'var(--text)' }}>{c.label}</h3>
-              <ul style={{ listStyle:'none', display:'flex', flexDirection:'column', gap:'0.65rem' }}>
-                {c.bullets.map((b,j) => (
-                  <li key={j} style={{ display:'flex', alignItems:'flex-start', gap:'0.65rem', fontSize:'0.87rem', color:j===c.bullets.length-1?'var(--text)':'var(--muted)' }}>
-                    <span style={{ width:'5px', height:'5px', borderRadius:'50%', background:j===c.bullets.length-1?c.color:'rgba(30,80,200,0.25)', flexShrink:0, marginTop:'0.45rem' }}/>{b}
-                  </li>
-                ))}
-              </ul>
+              <span style={{ fontFamily:'Syne', fontSize:'0.7rem', color:'#1a5ae8', letterSpacing:'0.08em' }}>{c.tag}</span>
+              <h3 style={{ fontFamily:'Syne', fontWeight:700, fontSize:'1.2rem', margin:'0.5rem 0' }}>{c.label}</h3>
+              <p style={{ color:'var(--muted)', fontSize:'0.87rem', marginTop:'0.5rem' }}>{c.desc}</p>
             </div>
           ))}
         </div>
@@ -552,19 +510,21 @@ function Contact() {
 
 /* ── Differentiation ── */
 function Differentiation() {
+  const philosophy = [
+    { title:'We Build Products, Not Projects', desc:'Software should be engineered for long-term value, not just short-term delivery. This mindset drives every decision we make.' },
+    { title:'Systems Over Shortcuts', desc:'We prioritize robust architecture, scalability, and maintainability from day one.' },
+    { title:'Performance is a Feature', desc:'High performance and reliability are core to every product we deliver.' },
+    { title:'AI as a Capability', desc:'AI is integrated where it creates real business value, not just as a trend.' },
+    { title:'Simplicity Drives Efficiency', desc:'Simple, clear solutions are the foundation of efficient, maintainable software.' },
+  ];
   return (
     <section id="differentiation" style={{ padding:'8rem 2rem', background:'var(--bg2)' }}>
       <div style={{ maxWidth:'1200px', margin:'0 auto' }}>
-        <SectionHeading eyebrow="WHY KAINOSOFT" title="Product-Focused Engineering" />
+        <SectionHeading eyebrow="OUR PHILOSOPHY" title="How We Build Software" />
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'1.5rem' }}>
-          {[
-            { title:'We Think in Products, Not Projects', desc:'Every decision is made with long-term product ownership in mind.' },
-            { title:'MVPs That Scale', desc:'We engineer minimum viable products that are built to grow.' },
-            { title:'AI Where It Matters', desc:'Strategic AI integration that adds real value to your SaaS.' },
-            { title:'Long-Term Partners', desc:'We work with founders to build sustainable SaaS businesses.' },
-          ].map((d,i) => (
+          {philosophy.map((d,i) => (
             <div key={i} className="card" style={{ padding:'2.2rem', textAlign:'center' }}>
-              <h3 style={{ fontFamily:'Syne', fontWeight:700, fontSize:'1.25rem', marginBottom:'0.75rem', color:'var(--text)' }}>{d.title}</h3>
+              <h3 style={{ fontFamily:'Syne', fontWeight:700, fontSize:'1.15rem', marginBottom:'0.75rem', color:'var(--text)' }}>{d.title}</h3>
               <p style={{ color:'var(--muted)', fontSize:'0.9rem' }}>{d.desc}</p>
             </div>
           ))}
@@ -581,10 +541,10 @@ function Footer() {
       <div style={{ maxWidth:'1200px', margin:'0 auto', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'1.5rem' }}>
         <div>
           <img src="images/logo-horizontal-blue.png" alt="Kainosoft" style={{ height: '100px', width: 'auto' }} />
-          <p style={{ fontSize:'0.78rem', color:'var(--muted)', marginTop:'0.5rem' }}>AI-Powered SaaS Product Studio</p>
+          <p style={{ fontSize:'0.78rem', color:'var(--muted)', marginTop:'0.5rem' }}>AI-Powered Software Product Company</p>
         </div>
         <div style={{ display:'flex', gap:'2rem', flexWrap:'wrap' }}>
-          {['Services','Process','Tech','Work','Contact'].map(l => (
+          {['Services','Process','Work','Contact'].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color:'var(--muted)', fontSize:'0.82rem', textDecoration:'none', fontFamily:'Syne', letterSpacing:'0.06em', transition:'color 0.2s ease' }}
                onMouseEnter={e=>e.target.style.color='var(--text)'} onMouseLeave={e=>e.target.style.color='var(--muted)'}>{l}</a>
           ))}
@@ -609,8 +569,6 @@ function App() {
         <Process/>
         <div className="section-divider"/>
         <Differentiation/>
-        <div className="section-divider"/>
-        <TechStack/>
         <div className="section-divider"/>
         <CaseStudies/>
         <CTABanner/>

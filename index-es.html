@@ -187,7 +187,7 @@ function Nav() {
     const fn = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', fn); return () => window.removeEventListener('scroll', fn);
   }, []);
-  const links = ['Servicios','Proceso','Tecnología','Trabajo','Contacto'];
+  const links = ['Servicios','Proceso','Trabajo','Contacto'];
   return (
     <nav style={{ position:'fixed', top:0, left:0, right:0, zIndex:100, transition:'all 0.3s ease' }} className={scrolled?'nav-blur':''}>
       <div style={{ maxWidth:'1200px', margin:'0 auto', padding:'0 2rem', height:'68px', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
@@ -196,7 +196,7 @@ function Nav() {
         </a>
         <div className="hidden md:flex" style={{ gap:'2.5rem', alignItems:'center' }}>
           {links.map((l, idx) => {
-            const ids = ['servicios', 'proceso', 'tecnologia', 'trabajo', 'contacto'];
+            const ids = ['servicios', 'proceso', 'trabajo', 'contacto'];
             return (<a key={l} href={`#${ids[idx]}`}
                style={{ color:'rgba(200,220,255,0.65)', fontFamily:'Syne', fontSize:'0.88rem', textDecoration:'none', letterSpacing:'0.04em', transition:'color 0.2s ease' }}
                onMouseEnter={e=>e.target.style.color='#fff'} onMouseLeave={e=>e.target.style.color='rgba(200,220,255,0.65)'}>{l}</a>);
@@ -249,13 +249,13 @@ function Hero() {
         <div style={{ maxWidth:'780px' }}>
           <div className="animate-fade-up" style={{ display:'inline-flex', alignItems:'center', gap:'0.6rem', background:'rgba(26,107,255,0.1)', border:'1px solid rgba(26,107,255,0.25)', borderRadius:'100px', padding:'0.35rem 1rem 0.35rem 0.6rem', marginBottom:'2rem' }}>
             <span style={{ width:'6px', height:'6px', borderRadius:'50%', background:'var(--cyan)', boxShadow:'0 0 8px var(--cyan)', display:'inline-block' }} className="animate-pulse-glow"/>
-            <span style={{ fontFamily:'Syne', fontSize:'0.75rem', letterSpacing:'0.1em', color:'rgba(200,220,255,0.8)' }}>INGENIERÍA SAAS NATIVA DE AZURE</span>
+            <span style={{ fontFamily:'Syne', fontSize:'0.75rem', letterSpacing:'0.1em', color:'rgba(200,220,255,0.8)' }}>INGENIERÍA DE SOFTWARE</span>
           </div>
           <h1 className="hero-headline glow-text animate-fade-up delay-1" style={{ marginBottom:'1.75rem', fontFamily:'Syne', fontWeight:800 }}>
-            Diseñamos, Construimos y Escalamos Productos SaaS — Con IA en el Núcleo
+            Creamos productos de software con IA.
           </h1>
           <p className="animate-fade-up delay-2" style={{ fontSize:'clamp(1rem,2.2vw,1.2rem)', color:'rgba(168,196,255,0.8)', lineHeight:1.7, marginBottom:'2.5rem', maxWidth:'560px', fontWeight:300 }}>
-            Un estudio premium de productos SaaS especializado en ingeniería de productos de extremo a extremo, desde MVP hasta plataforma escalable.
+            Software, SaaS y soluciones de IA para empresas modernas.
           </p>
           <div className="animate-fade-up delay-3" style={{ display:'flex', gap:'1rem', flexWrap:'wrap' }}>
             <a href="#contacto" className="btn-primary">Construye Tu SaaS con Nosotros</a>
@@ -330,18 +330,7 @@ function Process() {
 }
 
 function TechStack() {
-  const tech = ['Azure','Python','Django','React','IA','Nativa en la Nube'];
-  return (
-    <section id="tecnologia" style={{ padding:'8rem 2rem' }}>
-      <div style={{ maxWidth:'1200px', margin:'0 auto', textAlign:'center' }}>
-        <SectionHeading eyebrow="STACK TÉCNICO" title="Herramientas de precisión" />
-        <div style={{ display:'flex', flexWrap:'wrap', justifyContent:'center', gap:'1rem' }}>
-          {tech.map(t => <span key={t} className="tech-badge">{t}</span>)}
-        </div>
-        <img src="images/logo-vertical-white.png" alt="Kainosoft" style={{ display:'block', margin:'3rem auto 0', height:'170px', width:'auto', opacity:0.75 }} />
-      </div>
-    </section>
-  );
+  return null;
 }
 
 function CaseStudies() {
@@ -481,8 +470,8 @@ function Footer() {
           <p style={{ fontSize:'0.78rem', color:'rgba(150,175,220,0.4)', marginTop:'0.5rem' }}>Estudio de Productos SaaS con IA</p>
         </div>
         <div style={{ display:'flex', gap:'2rem' }}>
-          {['Servicios','Proceso','Tecnología','Trabajo','Contacto'].map((l, idx) => {
-            const ids = ['servicios', 'proceso', 'tecnologia', 'trabajo', 'contacto'];
+          {['Servicios','Proceso','Trabajo','Contacto'].map((l, idx) => {
+            const ids = ['servicios', 'proceso', 'trabajo', 'contacto'];
             return (<a key={l} href={`#${ids[idx]}`} style={{ color:'rgba(168,196,255,0.4)', fontSize:'0.82rem', textDecoration:'none', fontFamily:'Syne' }}>{l}</a>);
           })}
         </div>
@@ -507,8 +496,8 @@ function App() {
         <div className="section-divider"/>
         <Differentiation/>
         <div className="section-divider"/>
-        <TechStack/>
-        <div className="section-divider"/>
+        {/* <TechStack/> */}
+        {/* <div className="section-divider"/> */}
         <CaseStudies/>
         <div className="section-divider"/>
         <Contact/>
