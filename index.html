@@ -3,550 +3,223 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kainosoft — AI-Powered Software Product Company</title>
-  <meta name="description" content="Premium software product development: SaaS, custom platforms, cloud-native, and AI-powered solutions. We build software as a product, not a project." />
-  <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
-  <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
-  <link rel="manifest" href="images/favicon/site.webmanifest">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Kainosoft | AI-Powered Software Product Company</title>
+  <meta name="description" content="Kainosoft designs, develops, and scales SaaS platforms, cloud-native systems, and AI-powered software products for businesses built to grow." />
+  <link rel="canonical" href="https://kainosoft.com/" />
+  <link rel="alternate" hreflang="en" href="https://kainosoft.com/" />
+  <link rel="alternate" hreflang="es" href="https://kainosoft.com/index-es.html" />
+  <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="images/favicon/site.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --navy: #040d1a;
-      --navy-mid: #071428;
-      --blue: #1a6bff;
-      --cyan: #00d4ff;
-      --purple: #7b3fe4;
-      --glow-blue: rgba(26,107,255,0.35);
-      --glow-cyan: rgba(0,212,255,0.25);
-      --text: #e8eef8;
-      --muted: #6b7fa8;
-      --card-bg: rgba(255,255,255,0.035);
-      --card-border: rgba(100,150,255,0.12);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--navy); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-weight: 700;
-    }
-    .font-display { font-family: 'Syne', sans-serif; }
-
-    #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-
-    .glow-text {
-      background: linear-gradient(135deg, #ffffff 0%, #a8c8ff 40%, #00d4ff 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .title-gradient {
-      background: linear-gradient(120deg, #c8d8ff 0%, #ffffff 35%, #a0d0ff 65%, #00d4ff 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
-      color: #fff; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9rem;
-      letter-spacing: 0.04em; padding: 0.8rem 2rem; border-radius: 6px; border: none;
-      cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 0 20px rgba(26,107,255,0.4); text-decoration: none; display: inline-block;
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 35px rgba(26,107,255,0.6); }
-    .btn-secondary {
-      background: transparent; color: var(--text); font-family: 'Syne', sans-serif;
-      font-weight: 600; font-size: 0.9rem; letter-spacing: 0.04em; padding: 0.8rem 2rem;
-      border-radius: 6px; border: 1px solid rgba(100,150,255,0.35); cursor: pointer;
-      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
-      text-decoration: none; display: inline-block;
-    }
-    .btn-secondary:hover { border-color: rgba(0,212,255,0.6); background: rgba(0,212,255,0.05); transform: translateY(-2px); }
-
-    .card {
-      background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px;
-      backdrop-filter: blur(10px);
-      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-    }
-    .card:hover { border-color: rgba(0,212,255,0.3); box-shadow: 0 0 30px rgba(0,212,255,0.08), 0 20px 40px rgba(0,0,0,0.3); transform: translateY(-4px); }
-
-    .nav-blur { background: rgba(4,13,26,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(100,150,255,0.1); }
-
-    section { position: relative; z-index: 1; }
-
-    .section-divider {
-      height: 1px; position: relative; z-index: 1;
-      background: linear-gradient(90deg, transparent 0%, rgba(100,150,255,0.2) 30%, rgba(0,212,255,0.3) 50%, rgba(100,150,255,0.2) 70%, transparent 100%);
-      margin: 0 auto; max-width: 900px;
-    }
-
-    .tech-badge {
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(100,150,255,0.2);
-      border-radius: 8px; padding: 0.75rem 1.25rem; font-family: 'Syne', sans-serif;
-      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; color: rgba(200,220,255,0.9);
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    .tech-badge:hover { border-color: rgba(0,212,255,0.5); box-shadow: 0 0 16px rgba(0,212,255,0.15); }
-
-    .form-input {
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(100,150,255,0.2);
-      border-radius: 8px; padding: 0.85rem 1.1rem; color: var(--text);
-      font-family: 'DM Sans', sans-serif; font-size: 0.9rem; width: 100%; outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-    .form-input:focus { border-color: rgba(0,212,255,0.5); box-shadow: 0 0 0 3px rgba(0,212,255,0.08); }
-
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes pulse-glow { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
-    @keyframes float { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
-    @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-    .animate-fade-up { animation: fadeUp 0.8s ease forwards; }
-    .delay-1 { animation-delay: 0.15s; }
-    .delay-2 { animation-delay: 0.3s; }
-    .delay-3 { animation-delay: 0.45s; }
-    .delay-4 { animation-delay: 0.6s; }
-    .animate-float { animation: float 6s ease-in-out infinite; }
-    .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
-
-    .hero-headline { font-size: clamp(2.8rem, 6vw, 5.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; }
-
-    .cta-banner {
-      background: linear-gradient(135deg, rgba(26,107,255,0.12) 0%, rgba(123,63,228,0.12) 50%, rgba(0,212,255,0.08) 100%);
-      border: 1px solid rgba(100,150,255,0.18); background-size: 200% 200%;
-      animation: gradient-shift 8s ease infinite;
-    }
-
-    .connector { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0,212,255,0.4), rgba(123,63,228,0.4)); position: relative; }
-    .connector::after { content: ''; position: absolute; right: 0; top: -3px; width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); animation: pulse-glow 2s ease-in-out infinite; }
-
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--navy); }
-    ::-webkit-scrollbar-thumb { background: rgba(100,150,255,0.3); border-radius: 3px; }
-
-    @media (max-width: 768px) { .hero-headline { font-size: clamp(2rem, 8vw, 3rem); } }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="landing.css" />
+  <script>document.documentElement.classList.add("has-js");</script>
 </head>
-<body>
-<canvas id="bg-canvas"></canvas>
-<div id="root"></div>
-<script type="text/babel">
-const { useState, useEffect, useRef } = React;
-
-/* ── Particles ── */
-function ParticleBackground() {
-  useEffect(() => {
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let W, H, nodes, animId;
-    const COLORS = ['rgba(26,107,255,','rgba(0,212,255,','rgba(123,63,228,'];
-    function init() {
-      W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight;
-      const count = Math.floor((W * H) / 18000);
-      nodes = Array.from({length: count}, () => ({
-        x: Math.random()*W, y: Math.random()*H,
-        vx: (Math.random()-0.5)*0.35, vy: (Math.random()-0.5)*0.35,
-        r: Math.random()*1.5+0.5, color: COLORS[Math.floor(Math.random()*3)],
-        pulse: Math.random()*Math.PI*2,
-      }));
-    }
-    function draw() {
-      ctx.clearRect(0,0,W,H);
-      const g = ctx.createRadialGradient(W*.5,H*.3,0,W*.5,H*.3,W*.7);
-      g.addColorStop(0,'rgba(26,107,255,0.06)'); g.addColorStop(.5,'rgba(123,63,228,0.03)'); g.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-      for(let i=0;i<nodes.length;i++) for(let j=i+1;j<nodes.length;j++) {
-        const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y, d=Math.sqrt(dx*dx+dy*dy);
-        if(d<140){ ctx.beginPath(); ctx.strokeStyle=`rgba(100,160,255,${(1-d/140)*.18})`; ctx.lineWidth=.6; ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.stroke(); }
-      }
-      nodes.forEach(n => {
-        n.pulse+=.02; const gl=.5+.5*Math.sin(n.pulse);
-        ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2); ctx.fillStyle=n.color+(0.4+0.4*gl)+')'; ctx.fill();
-        if(n.r>1.5){ ctx.beginPath(); ctx.arc(n.x,n.y,n.r*3,0,Math.PI*2); ctx.fillStyle=n.color+(0.05*gl)+')'; ctx.fill(); }
-        n.x+=n.vx; n.y+=n.vy;
-        if(n.x<0||n.x>W) n.vx*=-1; if(n.y<0||n.y>H) n.vy*=-1;
-      });
-      animId = requestAnimationFrame(draw);
-    }
-    init(); draw(); window.addEventListener('resize',init);
-    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize',init); };
-  }, []);
-  return null;
-}
-
-function normalizePagePath(pathname) {
-  if (pathname.endsWith('/')) return pathname + 'index.html';
-  if (pathname.match(/\/[^\/]+\.[^\/]+$/)) return pathname;
-  return pathname.replace(/\/?$/, '/index.html');
-}
-
-function Nav() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', fn); return () => window.removeEventListener('scroll', fn);
-  }, []);
-  const links = ['Services','Process','Work','Contact'];
-  return (
-    <nav style={{ position:'fixed', top:0, left:0, right:0, zIndex:100, transition:'all 0.3s ease' }} className={scrolled?'nav-blur':''}>
-      <div style={{ maxWidth:'1200px', margin:'0 auto', padding:'0 2rem', height:'68px', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-        <a href="#hero" style={{ display: 'flex', alignItems: 'center', paddingTop: '10px' }}>
-          <img src="images/logo-horizontal-white.png" alt="Kainosoft" style={{ height: '100px', width: 'auto' }} />
+<body class="theme-dark">
+  <div class="preloader" data-preloader aria-hidden="true">
+    <img src="images/logo-horizontal-white.png" alt="" />
+  </div>
+  <div class="site-shell">
+    <header class="navbar">
+      <div class="container nav-inner">
+        <a class="brand" href="#hero" aria-label="Kainosoft home">
+          <img src="images/logo-horizontal-white.png" alt="Kainosoft" />
         </a>
-        <div className="hidden md:flex" style={{ gap:'2.5rem', alignItems:'center' }}>
-          {links.map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`}
-               style={{ color:'rgba(200,220,255,0.65)', fontFamily:'Syne', fontSize:'0.88rem', textDecoration:'none', letterSpacing:'0.04em', transition:'color 0.2s ease' }}
-               onMouseEnter={e=>e.target.style.color='#fff'} onMouseLeave={e=>e.target.style.color='rgba(200,220,255,0.65)'}>{l}</a>
-          ))}
-          <a href="#contact" className="btn-primary" style={{ padding:'0.55rem 1.4rem', fontSize:'0.82rem' }}>Book a Call</a>
-        </div>
-        <div style={{ display:'flex', gap:'1rem', alignItems:'center' }}>
-          <button onClick={() => {
-            const p = normalizePagePath(window.location.pathname);
-            const isLight = p.includes('-light');
-            const hasSp = p.includes('-es');
-            let newP;
-            if (isLight) {
-              newP = hasSp ? p.replace('index-light-es.html', 'index-es.html') : p.replace('index-light.html', 'index.html');
-            } else {
-              newP = hasSp ? p.replace('index-es.html', 'index-light-es.html') : p.replace('index.html', 'index-light.html');
-            }
-            window.location.href = newP + window.location.search + window.location.hash;
-          }}
-                  style={{ background:'rgba(26,107,255,0.1)', border:'1px solid rgba(0,212,255,0.3)', cursor:'pointer', padding:'0.5rem 0.75rem', borderRadius:'6px', color:'#fff' }}
-                  title="Toggle Light Mode">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              {window.location.pathname.includes('-light') ? 
-                <circle cx="12" cy="12" r="5" /> 
-                : 
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              }
-            </svg>
-          </button>
-          <button onClick={() => {
-            const p = normalizePagePath(window.location.pathname);
-            let newPath;
-            if (p.includes('-es')) {
-              newPath = p.includes('index-light-es.html')
-                ? p.replace('index-light-es.html', 'index-light.html')
-                : p.replace('index-es.html', 'index.html');
-            } else {
-              newPath = p.includes('index-light.html')
-                ? p.replace('index-light.html', 'index-light-es.html')
-                : p.replace('index.html', 'index-es.html');
-            }
-            window.location.href = newPath + window.location.search + window.location.hash;
-          }}
-                  style={{ background:'rgba(26,107,255,0.1)', border:'1px solid rgba(0,212,255,0.3)', cursor:'pointer', padding:'0.5rem 0.85rem', borderRadius:'6px', color:'#fff', fontFamily:'Syne', fontSize:'0.75rem', fontWeight:700 }}
-                  title="Toggle Spanish">
-            {window.location.pathname.includes('-es') ? 'EN' : 'ES'}
-          </button>
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden"
-                  style={{ background:'none', border:'none', cursor:'pointer', padding:'0.5rem' }}>
-            <div style={{ width:'22px', height:'2px', background:'#fff', margin:'5px 0', transition:'all 0.3s', transform:mobileOpen?'rotate(45deg) translate(5px,5px)':'none' }}/>
-            <div style={{ width:'22px', height:'2px', background:'#fff', margin:'5px 0', opacity:mobileOpen?0:1, transition:'opacity 0.3s' }}/>
-            <div style={{ width:'22px', height:'2px', background:'#fff', margin:'5px 0', transition:'all 0.3s', transform:mobileOpen?'rotate(-45deg) translate(5px,-5px)':'none' }}/>
-          </button>
+        <nav class="nav-links" data-nav-links aria-label="Primary navigation">
+          <a href="#build">What we build</a>
+          <a href="#philosophy">Philosophy</a>
+          <a href="#kainobox">KainoBox</a>
+          <a href="#process">Process</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="icon-button" href="index-es.html" aria-label="Cambiar a espanol">ES</a>
+          <a class="icon-button" href="index-light.html" aria-label="Switch to light mode">☀</a>
+          <a class="button primary" href="#contact">Start your project</a>
+          <button class="menu-button" type="button" data-menu-button aria-label="Open menu" aria-expanded="false">☰</button>
         </div>
       </div>
-      {mobileOpen && (
-        <div style={{ background:'rgba(4,13,26,0.98)', backdropFilter:'blur(20px)', borderTop:'1px solid rgba(100,150,255,0.1)', padding:'1.5rem 2rem 2rem' }}>
-          {links.map(l => <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setMobileOpen(false)}
-            style={{ display:'block', padding:'0.8rem 0', color:'rgba(200,220,255,0.8)', fontFamily:'Syne', fontSize:'1.1rem', textDecoration:'none', borderBottom:'1px solid rgba(100,150,255,0.08)' }}>{l}</a>)}
-          <a href="#contact" className="btn-primary" style={{ marginTop:'1.5rem', display:'block', textAlign:'center' }}>Book a Call</a>
-        </div>
-      )}
-    </nav>
-  );
-}
+    </header>
 
-/* ── Hero ── */
-function Hero() {
-  return (
-    <section id="hero" style={{ minHeight:'100vh', display:'flex', alignItems:'center', padding:'7rem 2rem 4rem', position:'relative', overflow:'hidden' }}>
-      <div style={{ position:'absolute', top:'20%', left:'50%', transform:'translateX(-50%)', width:'800px', height:'600px', background:'radial-gradient(ellipse, rgba(26,107,255,0.12) 0%, rgba(123,63,228,0.08) 40%, transparent 70%)', pointerEvents:'none' }}/>
-      <img src="images/full-logo.png" alt="" style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%, -50%)', width:'420px', height:'auto', opacity:0.06, zIndex:0, pointerEvents:'none' }} />
-      <div style={{ maxWidth:'1200px', margin:'0 auto', width:'100%', position:'relative', zIndex:1 }}>
-        <div style={{ maxWidth:'780px' }}>
-          <div className="animate-fade-up" style={{ display:'inline-flex', alignItems:'center', gap:'0.6rem', background:'rgba(26,107,255,0.1)', border:'1px solid rgba(26,107,255,0.25)', borderRadius:'100px', padding:'0.35rem 1rem 0.35rem 0.6rem', marginBottom:'2rem' }}>
-            <span style={{ width:'6px', height:'6px', borderRadius:'50%', background:'var(--cyan)', boxShadow:'0 0 8px var(--cyan)', display:'inline-block' }} className="animate-pulse-glow"/>
-            <span style={{ fontFamily:'Syne', fontSize:'0.75rem', letterSpacing:'0.1em', color:'rgba(200,220,255,0.8)' }}>SOFTWARE ENGINEERING</span>
+    <main>
+      <section class="hero" id="hero">
+        <div class="container hero-grid">
+          <div>
+            <p class="eyebrow">AI-powered software product company</p>
+            <h1>Build scalable software products with <span class="gradient-text">AI.</span></h1>
+            <p class="hero-copy">We design, develop, and scale SaaS platforms, cloud-native systems, and intelligent software for businesses built to grow.</p>
+            <div class="hero-actions">
+              <a class="button primary" href="#contact">Start your project</a>
+              <a class="button" href="#kainobox">Explore KainoBox</a>
+            </div>
+            <div class="hero-proof" aria-label="Company focus">
+              <span>Product-led engineering</span>
+              <span>Cloud-native systems</span>
+              <span>Maintainable architecture</span>
+            </div>
           </div>
-          <h1 className="hero-headline glow-text animate-fade-up delay-1" style={{ marginBottom:'1.75rem', fontFamily:'Syne', fontWeight:800 }}>
-            We build AI-powered software products.
-          </h1>
-          <p className="animate-fade-up delay-2" style={{ fontSize:'clamp(1rem,2.2vw,1.2rem)', color:'rgba(168,196,255,0.8)', lineHeight:1.7, marginBottom:'2.5rem', maxWidth:'560px', fontWeight:300 }}>
-            Scalable software, SaaS, and AI solutions for modern businesses.
-          </p>
-          <div className="animate-fade-up delay-3" style={{ display:'flex', gap:'1rem', flexWrap:'wrap' }}>
-            <a href="#contact" className="btn-primary">Ready to build your software product?</a>
-            <a href="#contact" className="btn-secondary">Learn More</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function SectionHeading({ eyebrow, title }) {
-  return (
-    <div style={{ textAlign:'center', marginBottom:'5rem' }}>
-      <p style={{ fontFamily:'Syne', fontSize:'0.72rem', letterSpacing:'0.18em', color:'rgba(0,212,255,0.7)', marginBottom:'1.25rem' }}>{eyebrow}</p>
-      <h2 className="section-title title-gradient" style={{ fontSize:'clamp(2rem,4vw,3.2rem)' }}>{title}</h2>
-    </div>
-  );
-}
-
-/* ── Services, Process, Tech, Work, CTA, Contact components remain same as original ── */
-/* (Summarized for brevity in this display, keep your original logic) */
-
-const services = [
-  { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="3" y="3" width="10" height="10" rx="2" stroke="#1a6bff" strokeWidth="1.5"/><rect x="19" y="3" width="10" height="10" rx="2" stroke="#7b3fe4" strokeWidth="1.5"/><rect x="3" y="19" width="10" height="10" rx="2" stroke="#7b3fe4" strokeWidth="1.5"/><rect x="19" y="19" width="10" height="10" rx="2" stroke="#00d4ff" strokeWidth="1.5"/></svg>, title:'SaaS & Platform Engineering', desc:'End-to-end SaaS, custom platforms, and cloud-native systems.', bullets:['Multi-tenant & custom architectures','Cloud-native & scalable','Built for growth'], accent:'#1a6bff' },
-  { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="#7b3fe4" strokeWidth="1.5"/><path d="M10 16 Q13 10 16 14 Q19 18 22 12" stroke="#00d4ff" strokeWidth="1.5" fill="none"/></svg>, title:'AI Integration', desc:'Practical AI for automation, intelligence, and business workflows.', bullets:['Embedded AI capabilities','Intelligent automation','Workflow optimization'], accent:'#7b3fe4' },
-  { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M6 26 L6 12 L16 6 L26 12 L26 26" stroke="#00d4ff" strokeWidth="1.5" fill="none"/></svg>, title:'Custom Software & Modernization', desc:'From new builds to legacy modernization and integrations.', bullets:['Custom app development','Legacy system modernization','API & system integrations'], accent:'#00d4ff' },
-  { icon: <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="6" y="6" width="20" height="20" rx="4" stroke="#1a6bff" strokeWidth="1.5"/></svg>, title:'Consulting & Product Strategy', desc:'Product vision, architecture, and go-to-market strategy.', bullets:['Product strategy','Architecture consulting','Go-to-market planning'], accent:'#1a6bff' },
-];
-
-function Services() {
-  return (
-    <section id="services" style={{ padding:'8rem 2rem' }}>
-      <div style={{ maxWidth:'1200px', margin:'0 auto' }}>
-        <SectionHeading eyebrow="WHAT WE BUILD" title="Three core disciplines" />
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'1.5rem' }}>
-          {services.map((s,i) => (
-            <div key={i} className="card" style={{ padding:'2.2rem' }}>
-              <div style={{ marginBottom:'1.5rem', padding:'0.75rem', background:`rgba(100,150,255,0.1)`, borderRadius:'10px', width:'fit-content' }}>{s.icon}</div>
-              <h3 style={{ fontFamily:'Syne', fontWeight:700, fontSize:'1.25rem', marginBottom:'0.75rem' }}>{s.title}</h3>
-              <p style={{ color:'rgba(168,196,255,0.65)', fontSize:'0.9rem', marginBottom:'1.5rem' }}>{s.desc}</p>
-              <ul style={{ listStyle:'none' }}>
-                {s.bullets.map((b,j) => <li key={j} style={{ fontSize:'0.85rem', color:'rgba(200,220,255,0.75)', marginBottom:'0.4rem' }}>• {b}</li>)}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Process() {
-  const steps = [
-    { num:'01', title:'Product Alignment', desc:'Align on product vision, goals, and requirements.' },
-    { num:'02', title:'System & Architecture Design', desc:'Design scalable system blueprint and architecture.' },
-    { num:'03', title:'Build & Iterate', desc:'Develop MVP and iterate based on feedback.' },
-    { num:'04', title:'Launch, Operate & Scale', desc:'Launch, operate, and scale the platform.' },
-  ];
-  return (
-    <section id="process" style={{ padding:'8rem 2rem' }}>
-      <div style={{ maxWidth:'1200px', margin:'0 auto' }}>
-        <SectionHeading eyebrow="HOW IT WORKS" title="The pipeline" />
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:'2rem' }}>
-          {steps.map((s,i) => (
-            <div key={i} style={{ textAlign:'center' }}>
-              <div style={{ fontSize:'0.75rem', color:'var(--cyan)', fontWeight:800, marginBottom:'1rem' }}>{s.num}</div>
-              <h3 style={{ fontFamily:'Syne', fontWeight:700, marginBottom:'0.5rem' }}>{s.title}</h3>
-              <p style={{ color:'rgba(168,196,255,0.65)', fontSize:'0.85rem' }}>{s.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-
-
-function CaseStudies() {
-  const cases = [
-    {label:'Healthcare Platform',tag:'HIPAA-grade SaaS',desc:'Secure, multi-tenant patient data system for healthcare providers.'},
-    {label:'Payroll SaaS',tag:'Finance SaaS',desc:'End-to-end payroll processing engine for mid-market companies.'},
-    {label:'Fitness Platform',tag:'Consumer SaaS',desc:'Membership management & training tracking for gyms.'},
-    {label:'Custom ERP',tag:'Custom Software',desc:'Tailored ERP for manufacturing, integrating legacy and cloud.'},
-    {label:'API Integrations',tag:'Integration',desc:'Connecting business systems for automation and data flow.'},
-  ];
-  return (
-    <section id="work" style={{ padding:'8rem 2rem' }}>
-      <div style={{ maxWidth:'1200px', margin:'0 auto' }}>
-        <SectionHeading eyebrow="SELECTED PROJECTS" title="Platforms & Software in Production" />
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'1.5rem' }}>
-          {cases.map((c,i) => (
-            <div key={i} className="card" style={{ padding:'2.2rem' }}>
-              <span style={{ fontFamily:'Syne', fontSize:'0.7rem', color:'#1a6bff', letterSpacing:'0.08em' }}>{c.tag}</span>
-              <h3 style={{ fontFamily:'Syne', fontWeight:700, fontSize:'1.2rem', margin:'0.5rem 0' }}>{c.label}</h3>
-              <p style={{ color:'rgba(168,196,255,0.65)', fontSize:'0.87rem', marginTop:'0.5rem' }}>{c.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Contact() {
-  const [form, setForm] = useState({name:'',email:'',company:'',message:''});
-  const [errors, setErrors] = useState({});
-  const [sent, setSent] = useState(false);
-  const [submitError, setSubmitError] = useState('');
-  const FORM_ENDPOINT = 'https://formspree.io/f/xjgjbvyd';
-  const validate = () => {
-    const e = {};
-    if (!form.name.trim()) e.name = 'Required';
-    if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) e.email = 'Valid email required';
-    if (!form.message.trim()) e.message = 'Required';
-    return e;
-  };
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const e = validate();
-    if (Object.keys(e).length) {
-      setErrors(e);
-      return;
-    }
-    try {
-      const data = new FormData();
-      data.append('name', form.name);
-      data.append('_replyto', form.email);
-      data.append('company', form.company);
-      data.append('message', form.message);
-      data.append('_subject', 'New Kainosoft website message');
-
-      const response = await fetch(FORM_ENDPOINT, {
-        method: 'POST',
-        body: data,
-        headers: { Accept: 'application/json' }
-      });
-
-      if (response.ok) {
-        setSent(true);
-        setSubmitError('');
-        setForm({ name:'', email:'', company:'', message:'' });
-      } else {
-        const body = await response.json();
-        setSubmitError(body.error || 'Submission failed. Please try again.');
-      }
-    } catch (err) {
-      setSubmitError('Submission failed. Please try again later.');
-    }
-  };
-  return (
-    <section id="contact" style={{ padding:'8rem 2rem' }}>
-      <div style={{ maxWidth:'700px', margin:'0 auto' }}>
-        <div style={{ textAlign:'center', marginBottom:'4rem' }}>
-          <p style={{ fontFamily:'Syne', fontSize:'0.72rem', letterSpacing:'0.18em', color:'var(--cyan)', marginBottom:'1rem', opacity:0.8 }}>GET STARTED</p>
-          <h2 className="section-title title-gradient" style={{ fontSize:'clamp(2rem,4vw,3rem)', marginBottom:'1rem' }}>Let’s Build Something Scalable</h2>
-          <a href="mailto:contact@kainosoft.com" style={{ color:'var(--cyan)', fontFamily:'Syne', fontSize:'0.9rem', textDecoration:'none', letterSpacing:'0.04em' }}>contact@kainosoft.com</a>
-        </div>
-        {sent ? (
-          <div style={{ textAlign:'center', padding:'3rem', background:'rgba(26,107,255,0.08)', border:'1.5px solid rgba(26,107,255,0.2)', borderRadius:'12px', boxShadow:'0 8px 30px rgba(26,107,255,0.08)' }}>
-            <div style={{ width:'48px', height:'48px', borderRadius:'50%', background:'rgba(26,107,255,0.12)', border:'1.5px solid rgba(26,107,255,0.25)', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 1.5rem' }}>
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10 L8 14 L16 6" stroke="#1a6bff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            </div>
-            <h3 style={{ fontFamily:'Syne', fontSize:'1.2rem', marginBottom:'0.5rem', color:'var(--text)' }}>Message received</h3>
-            <p style={{ color:'rgba(200,220,255,0.65)', fontSize:'0.9rem' }}>We'll be in touch within one business day.</p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:'1.25rem' }}>
-            {[{key:'name',label:'Name',placeholder:'Your name',type:'text'},{key:'email',label:'Email',placeholder:'you@company.com',type:'email'},{key:'company',label:'Company',placeholder:'Company name (optional)',type:'text'}].map(f => (
-              <div key={f.key}>
-                <label style={{ display:'block', fontFamily:'Syne', fontSize:'0.75rem', letterSpacing:'0.08em', color:'rgba(200,220,255,0.65)', marginBottom:'0.5rem' }}>{f.label.toUpperCase()}</label>
-                <input name={f.key} type={f.type} placeholder={f.placeholder} className="form-input" value={form[f.key]} onChange={e=>{setForm({...form,[f.key]:e.target.value});setErrors({...errors,[f.key]:''});}} required={f.key !== 'company'}/>
-                {errors[f.key] && <p style={{ color:'rgba(200,50,50,0.8)', fontSize:'0.75rem', marginTop:'0.3rem' }}>{errors[f.key]}</p>}
+          <div class="product-visual" aria-label="Software platform visual">
+            <div class="dashboard">
+              <div class="dash-top">
+                <div class="dash-dots"><span></span><span></span><span></span></div>
+                <div class="dash-title">Product operating layer</div>
               </div>
-            ))}
-            <div>
-              <label style={{ display:'block', fontFamily:'Syne', fontSize:'0.75rem', letterSpacing:'0.08em', color:'rgba(200,220,255,0.65)', marginBottom:'0.5rem' }}>MESSAGE</label>
-              <textarea name="message" placeholder="Tell us about your project..." className="form-input" rows="5" style={{ resize:'vertical' }} value={form.message} onChange={e=>{setForm({...form,message:e.target.value});setErrors({...errors,message:''});}} required />
-              {errors.message && <p style={{ color:'rgba(200,50,50,0.8)', fontSize:'0.75rem', marginTop:'0.3rem' }}>{errors.message}</p>}
+              <div class="dash-body">
+                <div class="metric-row">
+                  <div class="metric"><strong>99.9%</strong><span>Reliable cloud workloads and observable systems.</span></div>
+                  <div class="metric"><strong>AI</strong><span>Capabilities embedded where workflows need them.</span></div>
+                </div>
+                <div class="flow" aria-hidden="true"></div>
+                <div class="module-grid">
+                  <div class="module"><strong>SaaS core</strong><span>Accounts, data, billing, roles, integrations, and scale paths.</span></div>
+                  <div class="module"><strong>KainoBox</strong><span>Next SaaS launch for modern fitness operations.</span></div>
+                </div>
+              </div>
             </div>
-            {submitError && <p style={{ color:'rgba(200,50,50,0.85)', fontSize:'0.9rem' }}>{submitError}</p>}
-            <button type="submit" className="btn-primary" style={{ alignSelf:'flex-start', padding:'0.9rem 2.5rem' }}>Ready to build your software product?</button>
+            <img class="logo-mark" src="images/full-logo.png" alt="" aria-hidden="true" />
+          </div>
+        </div>
+      </section>
+
+      <section class="strip" aria-label="Positioning">
+        <div class="container strip-grid">
+          <div class="strip-item"><strong>Product-led growth</strong><span>Software decisions tied to product outcomes, not delivery theater.</span></div>
+          <div class="strip-item"><strong>Scalable SaaS platforms</strong><span>Multi-tenant foundations, modular services, and clear growth paths.</span></div>
+          <div class="strip-item"><strong>Cloud-native architecture</strong><span>Systems designed for deployment, observability, security, and resilience.</span></div>
+          <div class="strip-item"><strong>AI-enabled workflows</strong><span>Practical automation and intelligence where it improves the product.</span></div>
+        </div>
+      </section>
+
+      <section class="section" id="build">
+        <div class="container">
+          <div class="section-header">
+            <p class="section-kicker">What we build</p>
+            <h2>Software platforms engineered for scale, clarity, and long-term value.</h2>
+            <p>We work across the full product lifecycle: architecture, product engineering, AI integration, cloud delivery, performance, and ongoing maintainability.</p>
+          </div>
+          <div class="grid-3">
+            <article class="card"><div class="icon">□</div><h3>Software Product Development</h3><p>From product strategy to production-ready platforms with clear domain models and practical release paths.</p></article>
+            <article class="card"><div class="icon">▣</div><h3>SaaS Platform Engineering</h3><p>Subscription-ready systems, multi-tenant architecture, role models, dashboards, workflows, and integrations.</p></article>
+            <article class="card"><div class="icon">✦</div><h3>AI Integration and Enablement</h3><p>AI features that support real workflows: assistants, automation, classification, search, and operational insights.</p></article>
+            <article class="card"><div class="icon">☁</div><h3>Cloud Application Development</h3><p>Cloud-native applications built for reliability, deployment speed, observability, and cost-aware growth.</p></article>
+            <article class="card"><div class="icon">↗</div><h3>End-to-End Product Engineering</h3><p>Discovery, architecture, UX, backend, frontend, launch, iteration, and scale handled as one product system.</p></article>
+            <article class="card"><div class="icon">⌁</div><h3>Architecture and Performance</h3><p>Technical foundations that keep products fast, maintainable, and ready for new capabilities.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="philosophy">
+        <div class="container philosophy">
+          <div class="quote-card">
+            <p>Software should be built as a product, not as a project.</p>
+          </div>
+          <div class="principles">
+            <div class="principle"><strong>Systems over shortcuts</strong><span>Architecture, data boundaries, and operational quality matter from the first release.</span></div>
+            <div class="principle"><strong>Scalability from day one</strong><span>We design for expected growth without overbuilding for imaginary complexity.</span></div>
+            <div class="principle"><strong>Performance is a feature</strong><span>Speed, reliability, and observability are part of the product experience.</span></div>
+            <div class="principle"><strong>Simplicity drives efficiency</strong><span>Clear systems are easier to operate, extend, secure, and explain.</span></div>
+            <div class="principle"><strong>AI is a capability, not a trend</strong><span>We use AI where it changes the workflow, improves the product, or reduces operational load.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="kainobox">
+        <div class="container launch-panel">
+          <div>
+            <span class="launch-badge">Launching soon</span>
+            <h2>Introducing KainoBox — a SaaS platform built for modern gym and fitness operations.</h2>
+            <p class="lead">KainoBox is our next SaaS launch for fitness businesses, built for memberships, operations, client workflows, and smarter growth.</p>
+            <div class="hero-actions">
+              <a class="button primary" href="#contact">Request a demo</a>
+              <a class="button" href="#contact">Coming soon</a>
+            </div>
+          </div>
+          <div class="launch-visual">
+            <img class="launch-logo" src="images/logo-vertical-white.png" alt="Kainosoft vertical logo" />
+            <div class="mini-list">
+              <span>Membership and client management</span>
+              <span>Gym operations workflows</span>
+              <span>Fitness business insights</span>
+              <span>Cloud-native SaaS foundation</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="industries">
+        <div class="container">
+          <div class="section-header">
+            <p class="section-kicker">Markets</p>
+            <h2>Focused product engineering for businesses with real operating complexity.</h2>
+          </div>
+          <div class="grid-2">
+            <article class="card"><h3>Healthcare</h3><p>Secure workflows, operational systems, data-heavy platforms, and product experiences that must be reliable.</p></article>
+            <article class="card"><h3>Fitness</h3><p>Business management, memberships, scheduling, client engagement, and growth tools for modern fitness operations.</p></article>
+            <article class="card"><h3>SMBs, mid-market, and startups</h3><p>Product teams and growing companies that need durable software foundations without enterprise drag.</p></article>
+            <article class="card"><h3>LATAM with global reach</h3><p>Built from Mexico for regional and international companies that need serious software execution.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="process">
+        <div class="container">
+          <div class="section-header">
+            <p class="section-kicker">Engagement model</p>
+            <h2>Concise process. Product-oriented execution.</h2>
+          </div>
+          <div class="process-grid">
+            <article class="process-step"><span>01</span><h3>Discover</h3><p>Clarify the business model, users, workflows, constraints, and success metrics.</p></article>
+            <article class="process-step"><span>02</span><h3>Architect</h3><p>Define the product architecture, data model, cloud approach, and integration boundaries.</p></article>
+            <article class="process-step"><span>03</span><h3>Build</h3><p>Ship clean, tested increments across backend, frontend, AI, and cloud infrastructure.</p></article>
+            <article class="process-step"><span>04</span><h3>Scale</h3><p>Improve performance, reliability, observability, and product capabilities over time.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="container contact-panel">
+          <div>
+            <p class="section-kicker">Start your project</p>
+            <h2>Build the product your business needs next.</h2>
+            <p class="lead">Tell us what you are building, where the system needs to go, and what matters most for the next release.</p>
+            <div class="contact-links">
+              <a href="mailto:contact@kainosoft.com">contact@kainosoft.com</a>
+            </div>
+          </div>
+          <form class="form-grid" action="https://formspree.io/f/xjgjbvyd" method="POST">
+            <div class="field-grid">
+              <label>Name<input name="name" type="text" placeholder="Your name" required /></label>
+              <label>Email<input name="_replyto" type="email" placeholder="you@company.com" required /></label>
+            </div>
+            <label>Company<input name="company" type="text" placeholder="Company name" /></label>
+            <label>Message<textarea name="message" placeholder="Tell us about your product, platform, or system." required></textarea></label>
+            <input type="hidden" name="_subject" value="New Kainosoft website message" />
+            <button class="button primary" type="submit">Start your project</button>
           </form>
-        )}
-      </div>
-    </section>
-  );
-}
-
-/* ── Differentiation ── */
-function Differentiation() {
-  const philosophy = [
-    { title:'We Build Products, Not Projects', desc:'Software should be engineered for long-term value, not just short-term delivery. This mindset drives every decision we make.' },
-    { title:'Systems Over Shortcuts', desc:'We prioritize robust architecture, scalability, and maintainability from day one.' },
-    { title:'Performance is a Feature', desc:'High performance and reliability are core to every product we deliver.' },
-    { title:'AI as a Capability', desc:'AI is integrated where it creates real business value, not just as a trend.' },
-    { title:'Simplicity Drives Efficiency', desc:'Simple, clear solutions are the foundation of efficient, maintainable software.' },
-  ];
-  return (
-    <section id="differentiation" style={{ padding:'8rem 2rem' }}>
-      <div style={{ maxWidth:'1200px', margin:'0 auto' }}>
-        <SectionHeading eyebrow="OUR PHILOSOPHY" title="How We Build Software" />
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'1.5rem' }}>
-          {philosophy.map((d,i) => (
-            <div key={i} className="card" style={{ padding:'2.2rem', textAlign:'center' }}>
-              <h3 style={{ fontFamily:'Syne', fontWeight:700, fontSize:'1.15rem', marginBottom:'0.75rem' }}>{d.title}</h3>
-              <p style={{ color:'rgba(168,196,255,0.65)', fontSize:'0.9rem' }}>{d.desc}</p>
-            </div>
-          ))}
         </div>
-      </div>
-    </section>
-  );
-}
+      </section>
+    </main>
 
-/* ── Footer ── */
-function Footer() {
-  return (
-    <footer style={{ borderTop:'1px solid rgba(100,150,255,0.1)', padding:'3rem 2rem' }}>
-      <div style={{ maxWidth:'1200px', margin:'0 auto', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'1.5rem' }}>
+    <footer class="footer">
+      <div class="container footer-grid">
         <div>
-          <img src="images/logo-horizontal-white.png" alt="Kainosoft" style={{ height: '100px', width: 'auto' }} />
-          <p style={{ fontSize:'0.78rem', color:'rgba(150,175,220,0.4)', marginTop:'0.5rem' }}>AI-Powered Software Product Company</p>
+          <img src="images/logo-horizontal-white.png" alt="Kainosoft" />
+          <p>AI-Powered Software Product Company.</p>
         </div>
-        <div style={{ display:'flex', gap:'2rem' }}>
-          {['Services','Process','Work','Contact'].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color:'rgba(168,196,255,0.4)', fontSize:'0.82rem', textDecoration:'none', fontFamily:'Syne' }}>{l}</a>
-          ))}
-        </div>
-        <p style={{ fontSize:'0.75rem', color:'rgba(150,175,220,0.3)', fontFamily:'Syne' }}>© {new Date().getFullYear()} Kainosoft</p>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="#build">Build</a>
+          <a href="#kainobox">KainoBox</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="copyright">© <span id="year">2026</span> Kainosoft</div>
       </div>
     </footer>
-  );
-}
-
-/* ── App ── */
-function App() {
-  return (
-    <>
-      <ParticleBackground/>
-      <Nav />
-      <main>
-        <Hero/>
-        <div className="section-divider"/>
-        <Services/>
-        <div className="section-divider"/>
-        <Process/>
-        <div className="section-divider"/>
-        <Differentiation/>
-        <div className="section-divider"/>
-        <CaseStudies/>
-        <div className="section-divider"/>
-        <Contact/>
-      </main>
-      <Footer />
-    </>
-  );
-}
-
-ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
-</script>
+  </div>
+  <script src="landing.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
