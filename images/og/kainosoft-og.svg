@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Kainosoft — AI-Powered Software Product Company</title>
+  <desc id="desc">Kainosoft builds scalable software products with AI.</desc>
+  <defs>
+    <linearGradient id="orbital" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2ce3e8"/><stop offset=".35" stop-color="#4185ff"/><stop offset=".67" stop-color="#8c55ff"/><stop offset="1" stop-color="#ec3db7"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="85%" cy="40%" r="65%"><stop offset="0" stop-color="#3531a7" stop-opacity=".32"/><stop offset="1" stop-color="#07172d" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#07172d"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g fill="none" stroke="url(#orbital)" opacity=".84">
+    <ellipse cx="1000" cy="314" rx="395" ry="182" stroke-width="2" transform="rotate(-18 1000 314)"/>
+    <ellipse cx="1000" cy="314" rx="322" ry="258" stroke-width="2" transform="rotate(34 1000 314)"/>
+    <ellipse cx="1000" cy="314" rx="460" ry="108" stroke-width="1.5" opacity=".62" transform="rotate(61 1000 314)"/>
+  </g>
+  <circle cx="1000" cy="314" r="9" fill="#61d9f2"/>
+  <image href="../../Kainosoft_Vector_System_v1/kainosoft-logo-horizontal-reversed-transparent.svg" x="92" y="115" width="418" height="99" preserveAspectRatio="xMinYMid meet"/>
+  <rect x="94" y="277" width="66" height="4" rx="2" fill="url(#orbital)"/>
+  <text x="94" y="344" fill="#ffffff" font-family="Montserrat, Arial, sans-serif" font-size="35" font-weight="600" letter-spacing=".2">AI-Powered Software Product Company</text>
+  <text x="94" y="410" fill="#b9c9df" font-family="Montserrat, Arial, sans-serif" font-size="27" font-weight="500">Build Scalable Software Products with AI</text>
+</svg>
